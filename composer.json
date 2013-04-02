@@ -1,0 +1,19 @@
+{
+    "name": "desarrolla2/planet-bundle",
+    "type": "symfony-bundle",
+    "description": "This Bundle provides a simple planet site features.",
+    "keywords": ["planet", "cms"],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": 
+    [{
+        "name": "Daniel González",
+        "homepage": "http://desarrolla2.com/"
+    }],
+    "autoload": {
+        "psr-0": {
+            "Desarrolla2\\Bundle\\PlanetBundle": ""
+        }
+    },
+    "target-dir": "Desarrolla2/Bundle/PlanetBundle"
+}
