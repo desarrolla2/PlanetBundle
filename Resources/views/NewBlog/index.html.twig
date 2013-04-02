@@ -1,0 +1,74 @@
+{% extends "::frontend.html.twig" %}
+{% block title %} {{ title }} {% endblock%}
+{% block content %}    
+<article class="post">
+    <header>
+        <h2><a href="{{ url('_contact')}}">{{ title }}</a></h2>
+    </header>
+{% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="alert alert-success">{{ flashMessage }}</div>
+{% endfor %}
+    <p>
+        Completa el siguiente formulario si tienes un blog y crees que deberíamos
+        incluirlo en este planeta.
+    </p>
+        
+<form id="contact" action="{{ url('_new_blog') }}" method="post" {{ form_enctype(form) }}>
+    {% if form_errors(form) %} 
+        <div class="alert alert-error">{{ form_errors(form) }}</div>
+    {% endif %}                
+        <p>
+            <label for="">(*) Nombre</label>
+            {% if form_errors(form.userName) %} 
+        <div class="alert alert-error">{{ form_errors(form.userName) }}</div>
+            {% endif %}                
+            {{ form_widget(form.userName) }}
+        </p>
+        <p>
+            <label for="">(*) Correo</label>
+            {% if form_errors(form.userEmail) %} 
+        <div class="alert alert-error">{{ form_errors(form.userEmail) }}</div>
+            {% endif %}                
+            {{ form_widget(form.userEmail) }}
+        </p>        
+        <p>
+            <label for="">(*) URL del blog</label>
+            {% if form_errors(form.url) %} 
+        <div class="alert alert-error">{{ form_errors(form.url) }}</div>
+            {% endif %}                
+            {{ form_widget(form.url) }}
+        </p>
+        <p>
+            <label for="">Titulo del blog</label>
+            {% if form_errors(form.title) %} 
+        <div class="alert alert-error">{{ form_errors(form.title) }}</div>
+            {% endif %}                
+            {{ form_widget(form.title) }}
+        </p>
+        <p>
+            <label for="">RSS del blog</label>
+            {% if form_errors(form.rss) %} 
+        <div class="alert alert-error">{{ form_errors(form.rss) }}</div>
+            {% endif %}                
+            {{ form_widget(form.rss) }}
+        </p>
+        <p>
+            <label for="">Breve descripción de tu blog</label>
+            {% if form_errors(form.description) %} 
+        <div class="alert alert-error">{{ form_errors(form.description) }}</div>
+            {% endif %}                
+            {{ form_widget(form.description) }}
+        </p>   
+        <p>
+            <label for="">(*)¿Eres humano?</label>
+            {% if form_errors(form.captcha) %} 
+        <div class="alert alert-error">{{ form_errors(form.captcha) }}</div>
+            {% endif %}                
+            {{ form_widget(form.captcha, { 'attr': {'class': 'captcha'}} ) }}
+        </p>   
+    <button class="btn" type="submit">Enviar</button>
+{{ form_rest(form) }}
+</form>
+<p>Los campos marcados con (*) son obligatorios.</p>
+</article>
+{% endblock %}

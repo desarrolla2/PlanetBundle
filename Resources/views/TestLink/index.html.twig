@@ -1,0 +1,30 @@
+{% extends "::frontend.html.twig" %}
+{% block content %}    
+<article >
+    <header>
+        <h2>Informe de estado</h2>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Elementos</th>
+                <th>Tiempo</th>
+                <th>Error</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in results%}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.items }}</td>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.error }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </article>
+{% endblock %}

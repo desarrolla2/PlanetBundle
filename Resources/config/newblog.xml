@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="planet.newblog.handler.class">Desarrolla2\Bundle\PlanetBundle\Handler\NewBlog</parameter>
+    </parameters>
+
+    <services>
+        <service id="planet.newblog.handler" class="%planet.newblog.handler.class%">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="templating" />
+            <argument type="string" >%planet.newblog.title%</argument>
+            <argument type="string" >%planet.newblog.email%</argument>
+        </service>
+    </services>    
+</container>
