@@ -4,7 +4,7 @@
     <header>
         <h2>Informe de estado</h2>
     </header>
-    <table>
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -18,10 +18,10 @@
             {% for item in results%}
                 <tr>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.status }}</td>
+                    <td><img src="/bundles/planet/img/{% if item.status %}ok{% else %}problem{% endif %}.png" /></td>
                     <td>{{ item.items }}</td>
-                    <td>{{ item.time }}</td>
-                    <td>{{ item.error }}</td>
+                    <td>{{ item.time | number_format(3, ',', '.') }} s.</td>
+                    <td>{{ item.error | truncate(260) }}</td>
                 </tr>
             {% endfor %}
             </tbody>
