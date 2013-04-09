@@ -15,15 +15,15 @@ class UnrelatedRepository extends EntityRepository {
     public function getPost() {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
-                        ' SELECT COUNT(p) FROM BlogBundle:Post p ' .
-                        ' JOIN p.tags t ' .
-                        ' WHERE p.isPublished = 1 ' .
-                        ' AND t = :t ' .
-                        ' ORDER BY p.createdAt DESC '
-                )
-                ->setParameter('t', $t);
+                ' SELECT p as post, COUNT(u) n FROM PlanetBundle:Unrelated u  ' .
+                ' JOIN u.BlogBundle:Post p ' .
+                ' WHERE p.isPublished = 1 ' .
+                ' GROUP BY p ' .
+                ' HAVING  n > 0 ' .
+                ' ORDER BY n DESC '
+        );
 
-        return $query;
+        return $query->getResult();
     }
 
 }
