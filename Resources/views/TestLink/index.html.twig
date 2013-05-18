@@ -17,7 +17,7 @@
         <tbody>
             {% for item in results%}
                 <tr>
-                    <td>{{ item.name }}</td>
+                    <td>{{ item.name }} <a href="{{ item.rss }}">Enlace</a></td>
                     <td><img src="/bundles/planet/img/{% if item.status %}ok{% else %}problem{% endif %}.png" /></td>
                     <td>{{ item.items }}</td>
                     <td>{{ item.time | number_format(3, ',', '.') }} s.</td>
