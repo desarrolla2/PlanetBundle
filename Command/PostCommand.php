@@ -4,7 +4,7 @@
  * This file is part of the planetubuntu proyect.
  * 
  * Copyright (c)
- * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>  
+ * Daniel González <daniel.gonzalez@freelancemadrid.es> 
  * 
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
@@ -18,13 +18,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * 
- * Description of planetCommand
+ * Description of PostCommand
  *
- * @author : Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>  
- * @file : planetCommand.php , UTF-8
- * @date : Mar 4, 2013 , 3:59:37 PM
+ * @author : Daniel González <daniel.gonzalez@freelancemadrid.es> 
+ * @file : PostCommand.php , UTF-8
+ * @date : May 18, 2013 , 2:31:41 AM
  */
-class PlanetCommand extends ContainerAwareCommand {
+class PostCommand
+{
 
     protected $output;
     protected $input;
@@ -33,9 +34,10 @@ class PlanetCommand extends ContainerAwareCommand {
      * @access protected
      * @return void
      */
-    protected function configure() {
+    protected function configure()
+    {
         $this
-                ->setName('planet:execute')
+                ->setName('planet:post:execute')
                 ->setDescription('Not ready yet')
         ;
     }
@@ -45,7 +47,8 @@ class PlanetCommand extends ContainerAwareCommand {
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function initialize(InputInterface $input, OutputInterface $output) {
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
         parent::initialize($input, $output);
         $this->input = $input;
         $this->output = $output;
@@ -55,9 +58,10 @@ class PlanetCommand extends ContainerAwareCommand {
      * @param InputInterface  $input  Inpunt arguments
      * @param OutputInterface $output Output stream
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        $client = $this->getContainer()->get('planet.client');
-        $results = $client->run();
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $handler = $this->getContainer()->get('planet.post.handler');
+        $handler->run();
     }
 
 }

@@ -12,14 +12,15 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Handler;
 
-use Desarrolla2\RSSClient\RSSClientInterface;
 Use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 use Desarrolla2\Bundle\BlogBundle\Entity\Author;
 use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
+use Desarrolla2\Bundle\PlanetBundle\Util\String;
+use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
+use Desarrolla2\RSSClient\RSSClientInterface;
 use Desarrolla2\RSSClient\Node\Node;
 use \DateTime;
-use Desarrolla2\Bundle\PlanetBundle\Util\String;
 
 /**
  * 
@@ -138,19 +139,20 @@ class Planet
     {
 
         $entity = new Post();
-
+        
         $entity->setName($feed->getTitle());
         $entity->setIntro($this->doCleanExtract($feed->getDescription()));
         $entity->setContent($this->doCleanText($feed->getDescription()));
-        $entity->setIsPublished(true);
+        $entity->setStatus(PostStatus::PRE_PUBLISHED);
         $entity->setSource($feed->getLink());
         $entity->setPublishedAt(new DateTime());
-        $this->em->persist($entity);
+        $this->em->persist($entity);       
 
-        $this->setGUID($entity, $feed->getGuid());
-        $this->setTags($entity, $tags = $feed->getCategories());
+        $this->setGUID($entity, $feed->getGuid());        
+        $this->setTags($entity, $tags = $feed->getCategories());        
         $this->setAuthor($entity, $feed->getAuthor());
         $this->em->flush();
+        
     }
 
     /**
