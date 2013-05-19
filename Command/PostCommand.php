@@ -24,8 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @file : PostCommand.php , UTF-8
  * @date : May 18, 2013 , 2:31:41 AM
  */
-class PostCommand
-{
+class PostCommand extends ContainerAwareCommand {
+
 
     protected $output;
     protected $input;

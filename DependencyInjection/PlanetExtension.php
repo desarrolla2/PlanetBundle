@@ -28,6 +28,7 @@ class PlanetExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('planet.xml');
+        $loader->load('post.xml');
         $loader->load('newblog.xml');
     }
 }

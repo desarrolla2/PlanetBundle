@@ -20,7 +20,8 @@ namespace Desarrolla2\Bundle\PlanetBundle\Model\Test;
  * @file : Link.php , UTF-8
  * @date : Mar 26, 2013 , 7:05:39 PM
  */
-class Result {
+class Result
+{
 
     protected $name;
     protected $rss;
@@ -29,56 +30,69 @@ class Result {
     protected $error;
     protected $time;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->status = true;
         $this->items = 0;
     }
 
-    public function getTime() {
+    public function getTime()
+    {
         return $this->time;
     }
 
-    public function setTime($time) {
+    public function setTime($time)
+    {
         $this->time = $time;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function getRss() {
+    public function getRss()
+    {
         return $this->rss;
     }
 
-    public function setRss($rss) {
+    public function setRss($rss)
+    {
         $this->rss = $rss;
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         return $this->items;
     }
 
-    public function setItems($items) {
+    public function setItems($items)
+    {
         $this->items = (int) $items;
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = (bool) $status;
     }
 
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
-    public function setError($error) {
+    public function setError($error)
+    {
         $this->error = $error;
     }
 

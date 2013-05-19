@@ -12,6 +12,9 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Handler;
 
+use Doctrine\ORM\EntityManager;
+use Desarrolla2\Bundle\BlogBundle\Manager\PostManager;
+
 /**
  * 
  * Description of Post
@@ -30,13 +33,19 @@ class Post
     protected $em;
 
     /**
+     *
+     * @var \Desarrolla2\Bundle\BlogBundle\Manager\PostManager
+     */
+    protected $pm;
+
+    /**
      * 
      * @param \Doctrine\ORM\EntityManager $em
-     * @param \Desarrolla2\RSSClient\RSSClientInterface $rss
      */
-    public function __construct(EntityManager $em, RSSClientInterface $rss)
+    public function __construct(EntityManager $em, PostManager $pm)
     {
         $this->em = $em;
+        $this->pm = $pm;
     }
 
     /**
@@ -44,9 +53,9 @@ class Post
      */
     public function run()
     {
-        $item = $this->em->getRepository('Post')->getOnePrePublished();
-        if ($item) {
-            
+        $post = $this->em->getRepository('BlogBundle:Post')->getOneRandomPrePublished();
+        if ($post) {
+            $this->pm->publish($post);
         }
     }
 

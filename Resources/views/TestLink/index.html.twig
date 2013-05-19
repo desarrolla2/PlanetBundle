@@ -17,10 +17,10 @@
         <tbody>
             {% for item in results%}
                 <tr>
-                    <td>{{ item.name }} <a href="{{ item.rss }}">Enlace</a></td>
+                    <td><a href="{{ item.rss }}" target="_blank">{{ item.name }}</a></td>
                     <td><img src="/bundles/planet/img/{% if item.status %}ok{% else %}problem{% endif %}.png" /></td>
                     <td>{{ item.items }}</td>
-                    <td>{{ item.time | number_format(3, ',', '.') }} s.</td>
+                    <td>{{ item.time | number_format(3, ',', '.') }}s</td>
                     <td>{{ item.error | truncate(260) }}</td>
                 </tr>
             {% endfor %}
