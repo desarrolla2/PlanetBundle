@@ -8,10 +8,7 @@
 {% for flashMessage in app.session.flashbag.get('notice') %}
     <div class="alert alert-success">{{ flashMessage }}</div>
 {% endfor %}
-    <p>
-        Completa el siguiente formulario si tienes un blog y crees que deberíamos
-        incluirlo en este planeta.
-    </p>
+    {% include 'PlanetBundle:NewBlog:index.text.html.twig' %}        
         
 <form id="contact" action="{{ url('_new_blog') }}" method="post" {{ form_enctype(form) }}>
     {% if form_errors(form) %} 
