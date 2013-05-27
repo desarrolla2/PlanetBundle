@@ -14,18 +14,17 @@ use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
 class UnrelatedRepository extends EntityRepository
 {
 
-    public function getPost()
+    public function getPublished()
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
-                ' SELECT p as post, COUNT(u) n FROM PlanetBundle:Unrelated u  ' .
-                ' JOIN u.BlogBundle:Post p ' .
-                ' WHERE p.status =  ' . PostStatus::PUBLISHED .
-                ' GROUP BY p ' .
-                ' HAVING  n > 0 ' .
-                ' ORDER BY n DESC ' 
+                ' SELECT COUNT(u) AS n,  ' .
+                ' u AS un ' .
+                ' FROM PlanetBundle:Unrelated u  ' .
+                ' GROUP BY u.post ' .
+                ' HAVING  n > 1 ' .
+                ' ORDER BY n DESC '
         );
-
         return $query->getResult();
     }
 

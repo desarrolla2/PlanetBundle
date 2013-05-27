@@ -25,13 +25,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * 
  * Description of UnrelatedController
  */
-class UnrelatedController extends Controller {
+class UnrelatedController extends Controller
+{
 
     /**
      * @Route("/unrelated-post/{slug}" , name="_unrelated", requirements={"slug" = "[\w\d\-]+"})
      * @Template()
      */
-    public function indexAction(Request $request) {
+    public function indexAction(Request $request)
+    {
         $post = $this->getDoctrine()->getManager()
                         ->getRepository('BlogBundle:Post')->getOneBySlug($request->get('slug', false));
         if (!$post) {
@@ -52,6 +54,21 @@ class UnrelatedController extends Controller {
         return array(
             'post' => $post,
             'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/resume/unrelated" , name="_unrelated_resume")
+     * @Template()
+     */
+    public function resumeAction()
+    {
+        $unrelated =
+                $this->getDoctrine()->getManager()
+                ->getRepository('PlanetBundle:Unrelated')
+                ->getPublished();
+        return array(
+            'unrelated' => $unrelated,
         );
     }
 
