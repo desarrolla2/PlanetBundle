@@ -58,10 +58,10 @@ class UnrelatedController extends Controller
     }
 
     /**
-     * @Route("/resume/unrelated" , name="_unrelated_resume")
+     * @Route("/backend/report/unrelated" , name="_unrelated_report")
      * @Template()
      */
-    public function resumeAction()
+    public function reportAction()
     {
         $unrelated =
                 $this->getDoctrine()->getManager()
