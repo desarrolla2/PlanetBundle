@@ -23,7 +23,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="post_guid")
  * @ORM\Entity(repositoryClass="Desarrolla2\Bundle\PlanetBundle\Entity\Repository\PostGuidRepository")
  */
-class PostGuid {
+class PostGuid
+{
 
     /**
      * @var integer $id
@@ -46,7 +47,7 @@ class PostGuid {
      * @var Post
      * 
      * @ORM\ManyToOne(targetEntity="Desarrolla2\Bundle\BlogBundle\Entity\Post", inversedBy="comments")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $post;
 
@@ -64,7 +65,6 @@ class PostGuid {
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
     private $publishedAt;
-
 
     /**
      * Get id
@@ -167,4 +167,5 @@ class PostGuid {
     {
         return $this->post;
     }
+
 }
