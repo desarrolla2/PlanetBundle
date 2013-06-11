@@ -20,6 +20,7 @@ use Desarrolla2\Bundle\PlanetBundle\Util\String;
 use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
 use Desarrolla2\RSSClient\RSSClientInterface;
 use Desarrolla2\RSSClient\Node\Node;
+use \DOMDocument;
 use \DateTime;
 
 /**
@@ -91,6 +92,7 @@ class Planet
                                 }
                             }
                         } catch (\Exception $e) {
+                            ldd($e->getTraceAsString());
                             $this->notify('## error : ' . $e->getMessage());
                         }
                     }
@@ -139,20 +141,42 @@ class Planet
     {
 
         $entity = new Post();
-        
+
         $entity->setName($feed->getTitle());
         $entity->setIntro($this->doCleanExtract($feed->getDescription()));
         $entity->setContent($this->doCleanText($feed->getDescription()));
         $entity->setStatus(PostStatus::PRE_PUBLISHED);
         $entity->setSource($feed->getLink());
         $entity->setPublishedAt(new DateTime());
-        $this->em->persist($entity);       
+        $this->em->persist($entity);
 
-        $this->setGUID($entity, $feed->getGuid());        
-        $this->setTags($entity, $tags = $feed->getCategories());        
+        $this->setImage($entity, $feed->getDescription());
+        $this->setGUID($entity, $feed->getGuid());
+        $this->setTags($entity, $tags = $feed->getCategories());
         $this->setAuthor($entity, $feed->getAuthor());
+
+        $this->em->persist($entity);
         $this->em->flush();
-        
+    }
+
+    /**
+     * 
+     * @param type $entity
+     * @param type $string
+     */
+    protected function setImage($entity, $string)
+    {
+        $image = false;
+        $DOM = new DOMDocument();
+        $DOM->loadHTML($string);
+        $DOM->preserveWhiteSpace = false;
+        $images = $DOM->getElementsByTagName('img');
+        foreach ($images as $image) {
+            $src = $image->getAttribute('src');
+            $entity->setImage($src);
+            //$this->em->persist($entity);
+            return;
+        }
     }
 
     /**
@@ -170,7 +194,7 @@ class Planet
                 $this->em->getRepository('BlogBundle:Tag')->indexTagItemsForTag($tag);
             }
         }
-        $this->em->persist($entity);
+        //$this->em->persist($entity);
     }
 
     /**
@@ -184,7 +208,7 @@ class Planet
         $guid->setPost($entity);
         $guid->setPublishedAt(new DateTime());
         $this->em->persist($guid);
-        $this->em->persist($entity);
+        //$this->em->persist($entity);
     }
 
     /**
@@ -193,6 +217,7 @@ class Planet
      */
     protected function setAuthor($entity, $email)
     {
+        return;
         if ($email) {
             $author = $this->em->getRepository('PlanetBundle:PostGuid')->findOneBy(
                     array(
@@ -205,7 +230,7 @@ class Planet
                 $this->em->persist($author);
             }
             $entity->setAuthor($author);
-            $this->em->persist($entity);
+            //$this->em->persist($entity);
         }
     }
 
@@ -253,11 +278,10 @@ class Planet
      */
     protected function doCleanExtract($string)
     {
-        $string = strip_tags($string, '<ul><li><ol><b><p><br><br/><img><h4><h5><h3><h2>' .
+        $string = strip_tags($string, '<ul><li><ol><b><p><br><h4><h5><h3><h2>' .
                 '<table><tr><td><ht>'
         );
-        $string = String::truncate($string, 500);
-        return $this->doClean($string);
+        return $this->doClean(String::truncate($string, 500));
     }
 
 }
