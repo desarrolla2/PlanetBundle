@@ -148,9 +148,9 @@ class Planet
         $entity->setStatus(PostStatus::PRE_PUBLISHED);
         $entity->setSource($feed->getLink());
         $entity->setPublishedAt(new DateTime());
+        $entity->setImage($this->getImage($feed->getDescription()));
         $this->em->persist($entity);
-
-        $this->setImage($entity, $feed->getDescription());
+        
         $this->setGUID($entity, $feed->getGuid());
         $this->setTags($entity, $tags = $feed->getCategories());
         $this->setAuthor($entity, $feed->getAuthor());
@@ -164,18 +164,15 @@ class Planet
      * @param type $entity
      * @param type $string
      */
-    protected function setImage($entity, $string)
+    protected function getImage($string)
     {
-        $image = false;
         $DOM = new DOMDocument();
         $DOM->loadHTML($string);
         $DOM->preserveWhiteSpace = false;
         $images = $DOM->getElementsByTagName('img');
         foreach ($images as $image) {
             $src = $image->getAttribute('src');
-            $entity->setImage($src);
-            //$this->em->persist($entity);
-            return;
+            return $src;
         }
     }
 

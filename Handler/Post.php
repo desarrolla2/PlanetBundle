@@ -51,7 +51,7 @@ class Post
     /**
      * 
      */
-    public function run()
+    public function publishOne()
     {
         $post = $this->em->getRepository('BlogBundle:Post')->getOneRandomPrePublished();
         if ($post) {
