@@ -59,4 +59,13 @@ class Post
         }
     }
 
+    /**
+     * 
+     */
+    public function cleanInvalidSources()
+    {
+        // @TODO: Clean invalid sources.
+    }
+    
+
 }

@@ -92,7 +92,6 @@ class Planet
                                 }
                             }
                         } catch (\Exception $e) {
-                            ldd($e->getTraceAsString());
                             $this->notify('## error : ' . $e->getMessage());
                         }
                     }
@@ -150,7 +149,7 @@ class Planet
         $entity->setPublishedAt(new DateTime());
         $entity->setImage($this->getImage($feed->getDescription()));
         $this->em->persist($entity);
-        
+
         $this->setGUID($entity, $feed->getGuid());
         $this->setTags($entity, $tags = $feed->getCategories());
         $this->setAuthor($entity, $feed->getAuthor());
@@ -172,6 +171,9 @@ class Planet
         $images = $DOM->getElementsByTagName('img');
         foreach ($images as $image) {
             $src = $image->getAttribute('src');
+            if ($this->isGifImage($src)) {
+                continue;
+            }
             return $src;
         }
     }
@@ -279,6 +281,17 @@ class Planet
                 '<table><tr><td><ht>'
         );
         return $this->doClean(String::truncate($string, 500));
+    }
+
+    /**
+     * 
+     * @param string $imageUrl
+     * @return bool
+     */
+    private function isGifImage($imageUrl)
+    {
+        $pattern = '#\.gif#';
+        return (bool) preg_match($pattern, $imageUrl);
     }
 
 }
