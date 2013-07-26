@@ -2,10 +2,10 @@
 
 /**
  * This file is part of the desarrolla2 proyect.
- * 
+ *
  * Copyright (c)
- * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>  
- * 
+ * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
@@ -22,7 +22,7 @@ use Desarrolla2\Bundle\PlanetBundle\Form\Handler\UnrelatedHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * 
+ *
  * Description of UnrelatedController
  */
 class UnrelatedController extends Controller
@@ -35,22 +35,24 @@ class UnrelatedController extends Controller
     public function indexAction(Request $request)
     {
         $post = $this->getDoctrine()->getManager()
-                        ->getRepository('BlogBundle:Post')->getOneBySlug($request->get('slug', false));
+            ->getRepository('BlogBundle:Post')->getOneBySlug($request->get('slug', false));
         if (!$post) {
             throw $this->createNotFoundException('The post does not exist');
         }
 
         $form = $this->createForm(new UnrelatedType(), new UnrelatedModel());
         if ($request->getMethod() == 'POST') {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em      = $this->getDoctrine()->getManager();
             $handler = new UnrelatedHandler($em, $request, $form, $post);
             if ($handler->process()) {
                 $this->get('session')
-                        ->getFlashBag()
-                        ->add('success', 'Hemos recibido su mensaje');
+                    ->getFlashBag()
+                    ->add('success', 'Hemos recibido su mensaje');
+
                 return new RedirectResponse($this->generateUrl('_message'), 302);
             }
         }
+
         return array(
             'post' => $post,
             'form' => $form->createView(),
@@ -58,18 +60,37 @@ class UnrelatedController extends Controller
     }
 
     /**
-     * @Route("/backend/report/unrelated" , name="_unrelated_report")
+     * @Route("/backend/report/unrelated/" , name="_unrelated_report")
      * @Template()
      */
     public function reportAction()
     {
         $unrelated =
-                $this->getDoctrine()->getManager()
+            $this->getDoctrine()->getManager()
                 ->getRepository('PlanetBundle:Unrelated')
                 ->getPublished();
+
         return array(
             'unrelated' => $unrelated,
         );
     }
 
+    /**
+     * @Route("/backend/report/unrelated/{id}/clean" , name="_unrelated_clean")
+     * @Template()
+     */
+    public function cleanAction(Request $request)
+    {
+        $post = $this->getDoctrine()->getManager()
+            ->getRepository('BlogBundle:Post')->find($request->get('id', false));
+        if (!$post) {
+            throw $this->createNotFoundException('The post does not exist');
+        }
+
+        $this->getDoctrine()->getManager()
+            ->getRepository('PlanetBundle:Unrelated')
+            ->clean($post);
+
+        return new RedirectResponse($this->generateUrl('_unrelated_report'), 302);
+    }
 }
