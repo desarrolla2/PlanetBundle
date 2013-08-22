@@ -39,8 +39,9 @@ class Post
     protected $pm;
 
     /**
-     * 
-     * @param \Doctrine\ORM\EntityManager $em
+     *
+     * @param \Doctrine\ORM\EntityManager                        $em
+     * @param \Desarrolla2\Bundle\BlogBundle\Manager\PostManager $pm
      */
     public function __construct(EntityManager $em, PostManager $pm)
     {

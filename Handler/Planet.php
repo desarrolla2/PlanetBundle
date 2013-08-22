@@ -2,10 +2,10 @@
 
 /**
  * This file is part of the planetubuntu proyect.
- * 
+ *
  * Copyright (c)
- * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>  
- * 
+ * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
@@ -24,47 +24,38 @@ use \DOMDocument;
 use \DateTime;
 
 /**
- * 
- * Description of PlanetClient
  *
- * @author : Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>  
- * @file : PlanetClient.php , UTF-8
- * @date : Mar 4, 2013 , 2:25:29 PM
+ * Description of Planet
+ *
+ * @author : Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>
  */
 class Planet
 {
 
     /**
      *
-     * @var \Doctrine\ORM\EntityManager; 
+     * @var \Doctrine\ORM\EntityManager;
      */
     protected $em;
 
     /**
-     * @var \Desarrolla2\RSSClient\RSSClientInterface 
+     * @var \Desarrolla2\RSSClient\RSSClientInterface
      */
     protected $rss;
 
     /**
      *
-     * @var \DateTime 
-     */
-    protected $startDate;
-
-    /**
-     * 
-     * @param \Doctrine\ORM\EntityManager $em
+     * @param \Doctrine\ORM\EntityManager               $em
      * @param \Desarrolla2\RSSClient\RSSClientInterface $rss
      */
     public function __construct(EntityManager $em, RSSClientInterface $rss)
     {
         $this->em = $em;
         $this->rss = $rss;
-        $this->startDate = new \DateTime('01/22/2013');
     }
 
     /**
-     * 
+     *
      */
     public function run()
     {
@@ -80,9 +71,6 @@ class Planet
                             if ($feeds) {
                                 if ($feeds->count()) {
                                     foreach ($feeds as $feed) {
-                                        if ($feed->getPubDate() < $this->getStartDate()) {
-                                            continue;
-                                        }
                                         $guid = $this->getGuid($feed);
                                         if (!$guid) {
                                             $this->createPost($feed);
@@ -101,39 +89,32 @@ class Planet
     }
 
     /**
-     * 
+     *
      * @return type
      */
     protected function getLinks()
     {
         $links = $this->em->getRepository('BlogBundle:Link')->getActive();
+
         return $links;
     }
 
     /**
-     * 
+     *
      * @param type $feed
      * @return type
      */
     protected function getGuid($feed)
     {
         return $this->em->getRepository('PlanetBundle:PostGuid')->findOneBy(
-                        array(
-                            'guid' => $feed->getGuid(),
-        ));
+            array(
+                'guid' => $feed->getGuid(),
+            )
+        );
     }
 
     /**
-     * 
-     * @return type
-     */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * 
+     *
      * @param \Desarrolla2\RSSClient\Node\Node $feed
      */
     protected function createPost(Node $feed)
@@ -159,9 +140,10 @@ class Planet
     }
 
     /**
-     * 
-     * @param type $entity
-     * @param type $string
+     *
+     * @param $string
+     * @return
+     * @internal param \Desarrolla2\Bundle\PlanetBundle\Handler\type $entity
      */
     protected function getImage($string)
     {
@@ -174,12 +156,13 @@ class Planet
             if ($this->isGifImage($src)) {
                 continue;
             }
+
             return $src;
         }
     }
 
     /**
-     * 
+     *
      * @param type $entity
      * @param type $tags
      */
@@ -197,8 +180,10 @@ class Planet
     }
 
     /**
-     * 
-     * @param \Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid $guid
+     *
+     * @param $entity
+     * @param $guidString
+     * @internal param \Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid $guid
      */
     protected function setGUID($entity, $guidString)
     {
@@ -211,7 +196,9 @@ class Planet
     }
 
     /**
-     * 
+     *
+     * @param $entity
+     * @param $email
      * @return \Desarrolla2\Bundle\BlogBundle\Entity\Author
      */
     protected function setAuthor($entity, $email)
@@ -219,9 +206,10 @@ class Planet
         return;
         if ($email) {
             $author = $this->em->getRepository('PlanetBundle:PostGuid')->findOneBy(
-                    array(
-                        'email' => $email,
-            ));
+                array(
+                    'email' => $email,
+                )
+            );
             if (!$author) {
                 $author = new Author();
                 $author->setEmail($email);
@@ -234,8 +222,8 @@ class Planet
     }
 
     /**
-     * 
-     * @param type $log
+     *
+     * @param string $log
      */
     protected function notify($log)
     {
@@ -243,9 +231,9 @@ class Planet
     }
 
     /**
-     * 
-     * @param type $string
-     * @return type
+     *
+     * @param string $string
+     * @return string
      */
     protected function doClean($string)
     {
@@ -253,45 +241,51 @@ class Planet
         $string = trim(str_replace('<p></p>', '', $string));
         $string = preg_replace('/\s\s+/', ' ', $string);
         $string = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $string);
+
         return trim($string);
     }
 
     /**
-     * 
+     *
      * @param string $string
      * @return string
      */
     protected function doCleanText($string)
     {
-        $string = strip_tags($string, '<pre><cite><code><em><i><ul><li><ol><small><span><strike><a>' .
-                '<b><p><br><br/><img><h4><h5><h3><h2>' .
-                '<table><tr><td><ht>'
+        $string = strip_tags(
+            $string,
+            '<pre><cite><code><em><i><ul><li><ol><small><span><strike><a>' .
+            '<b><p><br><br/><img><h4><h5><h3><h2>'
         );
+
         return $this->doClean($string);
     }
 
     /**
-     * 
+     *
      * @param string $string
      * @return string
      */
     protected function doCleanExtract($string)
     {
-        $string = strip_tags($string, '<ul><li><ol><b><p><br><h4><h5><h3><h2>' .
-                '<table><tr><td><ht>'
+        $string = strip_tags(
+            $string,
+            '<ul><li><ol><b><p><br><h4><h5><h3><h2>' .
+            '<table><tr><td><ht>'
         );
+
         return $this->doClean(String::truncate($string, 500));
     }
 
     /**
-     * 
+     *
      * @param string $imageUrl
      * @return bool
      */
     private function isGifImage($imageUrl)
     {
         $pattern = '#\.gif#';
-        return (bool) preg_match($pattern, $imageUrl);
-    }
 
+        return (bool)preg_match($pattern, $imageUrl);
+    }
 }

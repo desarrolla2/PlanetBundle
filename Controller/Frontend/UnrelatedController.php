@@ -10,7 +10,7 @@
  * with this package in the file LICENSE.
  */
 
-namespace Desarrolla2\Bundle\PlanetBundle\Controller;
+namespace Desarrolla2\Bundle\PlanetBundle\Controller\Frontend;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -42,7 +42,7 @@ class UnrelatedController extends Controller
 
         $form = $this->createForm(new UnrelatedType(), new UnrelatedModel());
         if ($request->getMethod() == 'POST') {
-            $em      = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
             $handler = new UnrelatedHandler($em, $request, $form, $post);
             if ($handler->process()) {
                 $this->get('session')
@@ -57,40 +57,5 @@ class UnrelatedController extends Controller
             'post' => $post,
             'form' => $form->createView(),
         );
-    }
-
-    /**
-     * @Route("/backend/report/unrelated/" , name="_unrelated_report")
-     * @Template()
-     */
-    public function reportAction()
-    {
-        $unrelated =
-            $this->getDoctrine()->getManager()
-                ->getRepository('PlanetBundle:Unrelated')
-                ->getPublished();
-
-        return array(
-            'unrelated' => $unrelated,
-        );
-    }
-
-    /**
-     * @Route("/backend/report/unrelated/{id}/clean" , name="_unrelated_clean")
-     * @Template()
-     */
-    public function cleanAction(Request $request)
-    {
-        $post = $this->getDoctrine()->getManager()
-            ->getRepository('BlogBundle:Post')->find($request->get('id', false));
-        if (!$post) {
-            throw $this->createNotFoundException('The post does not exist');
-        }
-
-        $this->getDoctrine()->getManager()
-            ->getRepository('PlanetBundle:Unrelated')
-            ->clean($post);
-
-        return new RedirectResponse($this->generateUrl('_unrelated_report'), 302);
     }
 }

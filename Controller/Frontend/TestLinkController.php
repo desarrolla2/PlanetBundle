@@ -9,8 +9,7 @@
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
-
-namespace Desarrolla2\Bundle\PlanetBundle\Controller;
+namespace Desarrolla2\Bundle\PlanetBundle\Controller\Frontend;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

@@ -1,0 +1,31 @@
+{% extends "::frontend.html.twig" %}
+{% block content %}    
+<article >
+    <header>
+        <h2>Informe de estado</h2>
+    </header>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th colspan="6">Últimos meses</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in results%}
+                <tr>
+                    <td><a href="{{ item.url }}" target="_blank">{{ item.name }}</a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>100</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </article>
+{% endblock %}
