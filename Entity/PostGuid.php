@@ -17,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * 
- * Description of FeedItem
+ * Description of PostGuid
  *
  *
  * @ORM\Table(name="post_guid")
@@ -46,7 +46,7 @@ class PostGuid
      * 
      * @var Post
      * 
-     * @ORM\ManyToOne(targetEntity="Desarrolla2\Bundle\BlogBundle\Entity\Post", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="Desarrolla2\Bundle\BlogBundle\Entity\Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $post;

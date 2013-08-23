@@ -12,10 +12,12 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Handler;
 
-Use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 use Desarrolla2\Bundle\BlogBundle\Entity\Author;
 use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
+use Desarrolla2\Bundle\BlogBundle\Entity\Link;
+use Desarrolla2\Bundle\PlanetBundle\Entity\LinkPost;
 use Desarrolla2\Bundle\PlanetBundle\Util\String;
 use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
 use Desarrolla2\RSSClient\RSSClientInterface;
@@ -73,8 +75,9 @@ class Planet
                                     foreach ($feeds as $feed) {
                                         $guid = $this->getGuid($feed);
                                         if (!$guid) {
-                                            $this->createPost($feed);
-                                            $this->notify(' > New "' . $feed->getTitle() . '"');
+                                            $this->notify(' > New post "' . $feed->getTitle() . '"');
+                                            $post = $this->createPost($feed);
+                                            $this->createLinkPost($link, $post);
                                         }
                                     }
                                 }
@@ -114,8 +117,23 @@ class Planet
     }
 
     /**
+     * @param Link $link
+     * @param Post $post
+     */
+    protected function createLinkPost(Link $link, Post $post)
+    {
+        $entity = new LinkPost();
+        $entity->setPost($post);
+        $entity->setLink($link);
+
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
+
+    /**
      *
      * @param \Desarrolla2\RSSClient\Node\Node $feed
+     * @return \Desarrolla2\Bundle\BlogBundle\Entity\Post
      */
     protected function createPost(Node $feed)
     {
@@ -137,6 +155,8 @@ class Planet
 
         $this->em->persist($entity);
         $this->em->flush();
+
+        return $entity;
     }
 
     /**
@@ -162,15 +182,33 @@ class Planet
     }
 
     /**
-     *
-     * @param type $entity
-     * @param type $tags
+     * @param array $tags
+     * @return array
      */
-    protected function setTags($entity, $tags)
+    protected function cleanTags($tags)
     {
+        $tags1 = array();
         foreach ($tags as $tagName) {
             $tagName = trim(strtolower($tagName));
+            if (!in_array($tagName, $tags1)) {
+                $tags1[] = $tagName;
+            }
+        }
+
+        return $tags1;
+    }
+
+    /**
+     *
+     * @param Post  $entity
+     * @param array $tags
+     */
+    protected function setTags(Post $entity, $tags)
+    {
+        $tags = $this->cleanTags($tags);
+        foreach ($tags as $tagName) {
             if ($tagName) {
+                $this->notify(' > > Tag "' . $tagName . '"');
                 $tag = $this->em->getRepository('BlogBundle:Tag')->getOrCreateByName($tagName);
                 $entity->addTag($tag);
                 $this->em->getRepository('BlogBundle:Tag')->indexTagItemsForTag($tag);
