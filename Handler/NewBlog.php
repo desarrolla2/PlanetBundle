@@ -92,9 +92,10 @@ class NewBlog {
     /**
      * 
      * @param \Desarrolla2\Bundle\PlanetBundle\Form\Model\NewBlogModel $data
+     * @return string
      */
     protected function renderTemplate(NewBlogModel $data) {
-        return $this->templating->render('PlanetBundle:NewBlog:email.html.twig', array(
+        return $this->templating->render('PlanetBundle:Frontend\NewBlog:email.html.twig', array(
                     'subject' => $this->subject,
                     'email' => $data->getUserEmail(),
                     'name' => $data->getUserName(),
