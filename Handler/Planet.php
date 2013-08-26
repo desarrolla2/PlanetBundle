@@ -18,7 +18,7 @@ use Desarrolla2\Bundle\BlogBundle\Entity\Author;
 use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
 use Desarrolla2\Bundle\PlanetBundle\Entity\LinkPost;
-use Desarrolla2\Bundle\PlanetBundle\Util\String;
+use Desarrolla2\Bundle\PlanetBundle\Helper\PostHelper;
 use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
 use Desarrolla2\RSSClient\RSSClientInterface;
 use Desarrolla2\RSSClient\Node\Node;
@@ -141,8 +141,8 @@ class Planet
         $entity = new Post();
 
         $entity->setName($feed->getTitle());
-        $entity->setIntro($this->doCleanExtract($feed->getDescription()));
-        $entity->setContent($this->doCleanText($feed->getDescription()));
+        $entity->setIntro(PostHelper::doCleanIntro($feed->getDescription()));
+        $entity->setContent(PostHelper::doCleanContent($feed->getDescription()));
         $entity->setStatus(PostStatus::PRE_PUBLISHED);
         $entity->setSource($feed->getLink());
         $entity->setPublishedAt(new DateTime());
@@ -266,53 +266,6 @@ class Planet
     protected function notify($log)
     {
         echo $log . PHP_EOL;
-    }
-
-    /**
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function doClean($string)
-    {
-        $string = str_replace('<p>&nbsp;</p>', '', $string);
-        $string = trim(str_replace('<p></p>', '', $string));
-        $string = preg_replace('/\s\s+/', ' ', $string);
-        $string = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $string);
-
-        return trim($string);
-    }
-
-    /**
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function doCleanText($string)
-    {
-        $string = strip_tags(
-            $string,
-            '<pre><cite><code><em><i><ul><li><ol><small><span><strike><a>' .
-            '<b><p><br><br/><img><h4><h5><h3><h2>'
-        );
-
-        return $this->doClean($string);
-    }
-
-    /**
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function doCleanExtract($string)
-    {
-        $string = strip_tags(
-            $string,
-            '<ul><li><ol><b><p><br><h4><h5><h3><h2>' .
-            '<table><tr><td><ht>'
-        );
-
-        return $this->doClean(String::truncate($string, 500));
     }
 
     /**
