@@ -36,7 +36,7 @@ class LinkPost
      *
      * @var Post
      *
-     * @ORM\ManyToOne(targetEntity="Desarrolla2\Bundle\BlogBundle\Entity\Post")
+     * @ORM\OneToOne(targetEntity="Desarrolla2\Bundle\BlogBundle\Entity\Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $post;
@@ -51,19 +51,20 @@ class LinkPost
     private $link;
 
     /**
+     * @var \DateTime $createdAt
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
      * @var \DateTime $updated_at
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
-
-    /**
-     * @var \DateTime $published_at
-     *
-     * @ORM\Column(name="published_at", type="datetime", nullable=true)
-     */
-    private $publishedAt;
 
     /**
      * @param int $id
@@ -128,17 +129,48 @@ class LinkPost
     {
         return $this->publishedAt;
     }
+    
 
     /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return LinkPost
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
      * @param \DateTime $updatedAt
+     * @return LinkPost
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    
+        return $this;
     }
 
     /**
-     * @return \DateTime
+     * Get updatedAt
+     *
+     * @return \DateTime 
      */
     public function getUpdatedAt()
     {

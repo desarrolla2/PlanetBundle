@@ -22,9 +22,8 @@ use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 
 class PostEvent extends Event
 {
-
     /**
-     * @var
+     * @var Post
      */
     protected $post;
 
@@ -37,7 +36,7 @@ class PostEvent extends Event
     }
 
     /**
-     * @return mixed
+     * @return Post
      */
     public function getPost()
     {

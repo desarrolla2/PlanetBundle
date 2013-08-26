@@ -12,14 +12,18 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Handler;
 
+use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 use Desarrolla2\Bundle\BlogBundle\Entity\Author;
-use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
+use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
+use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
 use Desarrolla2\Bundle\PlanetBundle\Entity\LinkPost;
 use Desarrolla2\Bundle\PlanetBundle\Helper\PostHelper;
-use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
+use Desarrolla2\Bundle\PlanetBundle\Event\PostEvent;
+use Desarrolla2\Bundle\PlanetBundle\Event\PostEvents;
 use Desarrolla2\RSSClient\RSSClientInterface;
 use Desarrolla2\RSSClient\Node\Node;
 use \DOMDocument;
@@ -43,57 +47,76 @@ class Planet
     /**
      * @var \Desarrolla2\RSSClient\RSSClientInterface
      */
-    protected $rss;
+    protected $client;
+
+    /**
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher
+     */
+    protected $dispatcher;
+
+    protected $logger;
 
     /**
      *
-     * @param \Doctrine\ORM\EntityManager               $em
-     * @param \Desarrolla2\RSSClient\RSSClientInterface $rss
+     * @param \Doctrine\ORM\EntityManager                        $em
+     * @param \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher
+     * @param \Desarrolla2\RSSClient\RSSClientInterface          $client
      */
-    public function __construct(EntityManager $em, RSSClientInterface $rss)
+    public function __construct(EntityManager $em, EventDispatcher $dispatcher, RSSClientInterface $client)
     {
         $this->em = $em;
-        $this->rss = $rss;
+        $this->dispatcher = $dispatcher;
+        $this->client = $client;
     }
 
     /**
-     *
+     * Run Planet Service
      */
     public function run()
     {
         $links = $this->getLinks();
-        if ($links) {
-            if (count($links)) {
-                foreach ($links as $link) {
-                    $this->notify('Feed: ' . $link->getName() . ' ' . $link->getRSS());
-                    if ($link->getRSS()) {
-                        $this->rss->setFeed($link->getRSS());
-                        try {
-                            $feeds = $this->rss->fetch();
-                            if ($feeds) {
-                                if ($feeds->count()) {
-                                    foreach ($feeds as $feed) {
-                                        $guid = $this->getGuid($feed);
-                                        if (!$guid) {
-                                            $this->notify(' > New post "' . $feed->getTitle() . '"');
-                                            $post = $this->createPost($feed);
-                                            $this->createLinkPost($link, $post);
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (\Exception $e) {
-                            $this->notify('## error : ' . $e->getMessage());
+        if (!$links) {
+            $this->notify('No Links');
+
+            return;
+        }
+        foreach ($links as $link) {
+            $this->notify('Feed: ' . $link->getName() . ' ' . $link->getRSS());
+            if (!$link->getRSS()) {
+                // exception
+                continue;
+            }
+            $this->client->setFeed($link->getRSS());
+            try {
+                $feeds = $this->client->fetch();
+                if (!$feeds) {
+                    continue;
+                }
+                if ($feeds->count()) {
+                    foreach ($feeds as $feed) {
+                        $guid = $this->getGuid($feed);
+                        if ($guid) {
+                            continue;
                         }
+                        $this->notify(' > New post "' . $feed->getTitle() . '"');
+                        $post = $this->createPost($feed);
+                        $this->createLinkPost($link, $post);
+                        $this->dispatcher->dispatch(
+                            PostEvents::CREATED,
+                            new PostEvent($post)
+                        );
                     }
                 }
+            } catch (\Exception $e) {
+                $this->notify('## error : ' . $e->getMessage());
             }
         }
     }
 
+
     /**
      *
-     * @return type
+     * @return array
      */
     protected function getLinks()
     {
@@ -104,8 +127,8 @@ class Planet
 
     /**
      *
-     * @param type $feed
-     * @return type
+     * @param string $feed
+     * @return PostGuid
      */
     protected function getGuid($feed)
     {

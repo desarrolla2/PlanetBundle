@@ -55,6 +55,7 @@ class PlanetTestCommand extends ContainerAwareCommand {
     /**
      * @param InputInterface  $input  Inpunt arguments
      * @param OutputInterface $output Output stream
+     * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
         $client = $this->getContainer()->get('planet.client.test');
