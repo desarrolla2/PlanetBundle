@@ -47,7 +47,7 @@ class PostHelper
         $string = strip_tags(
             $string,
             '<pre><cite><code><em><i><ul><li><ol><small><span><strike><a>' .
-            '<b><p><br><br/><img><h4><h5><h3><h2>'
+            '<b><p><br><br/><h4><h5><h3><h2>'
         );
 
         return self::doClean(HTMLHelper::truncate($string, 500));

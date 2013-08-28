@@ -2,10 +2,10 @@
 
 /**
  * This file is part of the planetubuntu proyect.
- * 
+ *
  * Copyright (c)
- * Daniel González <daniel.gonzalez@freelancemadrid.es> 
- * 
+ * Daniel González <daniel.gonzalez@freelancemadrid.es>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
@@ -16,19 +16,19 @@ use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Manager\PostManager;
 
 /**
- * 
+ *
  * Description of Post
  *
- * @author : Daniel González <daniel.gonzalez@freelancemadrid.es> 
- * @file : Post.php , UTF-8
- * @date : May 18, 2013 , 2:32:55 AM
+ * @author : Daniel González <daniel.gonzalez@freelancemadrid.es>
+ * @file   : Post.php , UTF-8
+ * @date   : May 18, 2013 , 2:32:55 AM
  */
 class Post
 {
 
     /**
      *
-     * @var \Doctrine\ORM\EntityManager; 
+     * @var \Doctrine\ORM\EntityManager;
      */
     protected $em;
 
@@ -50,7 +50,7 @@ class Post
     }
 
     /**
-     * 
+     *
      */
     public function publishOne()
     {
@@ -61,12 +61,10 @@ class Post
     }
 
     /**
-     * 
+     *
      */
     public function cleanInvalidSources()
     {
         // @TODO: Clean invalid sources.
     }
-    
-
 }
