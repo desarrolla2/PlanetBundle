@@ -83,10 +83,6 @@ class Spider
     }
 
     /**
-     *
-     */
-
-    /**
      * Retrieve new items in database links
      *
      * @throws \Exception
