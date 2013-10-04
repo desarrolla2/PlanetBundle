@@ -9,7 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/report")
+ * Class UnrelatedController
+ *
+ * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  */
 class UnrelatedController extends Controller
 {
