@@ -12,7 +12,7 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Handler;
 
-use \Desarrolla2\Bundle\PlanetBundle\Form\Model\NewBlogModel;
+use \Desarrolla2\Bundle\PlanetBundle\Form\Model\Frontend\NewBlogModel;
 use \Symfony\Bundle\TwigBundle\TwigEngine;
 use \Swift_Message;
 use \Swift_Mailer;

@@ -2,10 +2,10 @@
 
 /**
  * This file is part of the planetubuntu proyect.
- * 
+ *
  * Copyright (c)
- * Daniel González <daniel.gonzalez@freelancemadrid.es> 
- * 
+ * Daniel González <daniel.gonzalez@freelancemadrid.es>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
@@ -17,12 +17,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * 
+ *
  * Description of PostCommand
  *
- * @author : Daniel González <daniel.gonzalez@freelancemadrid.es> 
- * @file : PostCommand.php , UTF-8
- * @date : May 18, 2013 , 2:31:41 AM
+ * @author : Daniel González <daniel.gonzalez@freelancemadrid.es>
+ * @file   : PostCommand.php , UTF-8
+ * @date   : May 18, 2013 , 2:31:41 AM
  */
 class PostCleanInvalidSourcesCommand extends ContainerAwareCommand
 {
@@ -37,14 +37,13 @@ class PostCleanInvalidSourcesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-                ->setName('planet:post:clean-invalid-sources')
-                ->setDescription('Not ready yet')
-        ;
+            ->setName('planet:post:clean-invalid-sources')
+            ->setDescription('Not ready yet');
     }
 
     /**
-     * 
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -60,5 +59,4 @@ class PostCleanInvalidSourcesCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
     }
-
 }

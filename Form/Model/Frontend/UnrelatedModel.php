@@ -10,7 +10,7 @@
  * with this package in the file LICENSE.
  */
 
-namespace Desarrolla2\Bundle\PlanetBundle\Form\Model;
+namespace Desarrolla2\Bundle\PlanetBundle\Form\Model\Frontend;
 
 /**
  * 

@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Desarrolla2\Bundle\PlanetBundle\Form\Type\UnrelatedType;
-use Desarrolla2\Bundle\PlanetBundle\Form\Model\UnrelatedModel;
-use Desarrolla2\Bundle\PlanetBundle\Form\Handler\UnrelatedHandler;
+use Desarrolla2\Bundle\PlanetBundle\Form\Type\Frontend\UnrelatedType;
+use Desarrolla2\Bundle\PlanetBundle\Form\Model\Frontend\UnrelatedModel;
+use Desarrolla2\Bundle\PlanetBundle\Form\Handler\Frontend\UnrelatedHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**

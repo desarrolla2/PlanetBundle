@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in results%}
+            {% for item in results %}
                 <tr>
                     <td><a href="{{ item.rss }}" target="_blank">{{ item.name }}</a></td>
                     <td><img src="/bundles/planet/img/{% if item.status %}ok{% else %}problem{% endif %}.png" /></td>

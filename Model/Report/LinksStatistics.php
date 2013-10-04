@@ -11,12 +11,12 @@
 namespace Desarrolla2\Bundle\PlanetBundle\Model\Report;
 
 /**
- * Class Link
+ * Class LinksStatistics
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  */
 
-class Link
+class LinksStatistics
 {
 
     /**
@@ -33,11 +33,6 @@ class Link
      * @var array
      */
     protected $months = array();
-
-    /**
-     * @var int
-     */
-    protected $total;
 
     /**
      * @param string $url
@@ -88,18 +83,15 @@ class Link
     }
 
     /**
-     * @param int $total
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-    }
-
-    /**
      * @return int
      */
     public function getTotal()
     {
-        return $this->total;
+        $total = 0;
+        foreach ($this->months as $month) {
+            $total += $month;
+        }
+
+        return $total;
     }
 }

@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Desarrolla2\Bundle\PlanetBundle\Form\Type\NewBlogType;
-use Desarrolla2\Bundle\PlanetBundle\Form\Model\NewBlogModel;
-use Desarrolla2\Bundle\PlanetBundle\Form\Handler\NewBlogHandler;
+use Desarrolla2\Bundle\PlanetBundle\Form\Type\Frontend\NewBlogType;
+use Desarrolla2\Bundle\PlanetBundle\Form\Model\Frontend\NewBlogModel;
+use Desarrolla2\Bundle\PlanetBundle\Form\Handler\Frontend\NewBlogHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**

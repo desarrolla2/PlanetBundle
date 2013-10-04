@@ -10,7 +10,7 @@
  * with this package in the file LICENSE.
  */
 
-namespace Desarrolla2\Bundle\PlanetBundle\Form\Model;
+namespace Desarrolla2\Bundle\PlanetBundle\Form\Model\Frontend;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  */
-class NewBlogModel
+class   NewBlogModel
 {
 
     /**

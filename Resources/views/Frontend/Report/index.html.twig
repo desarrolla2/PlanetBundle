@@ -1,0 +1,19 @@
+{% extends "::frontend.html.twig" %}
+{% block content %}
+  <article>
+    <header>
+      <h2><a href="{{ path('_planet_report') }}">Informes del sitio</a></h2>
+    </header>
+    <ul>
+      <li>
+        Entradas publicadas ( no disponible ).
+      </li>
+      <li>
+        <a href="{{ path('_planet_report_links') }}">Entradas publicadas por fuente</a>
+      </li>
+      <li>
+        <a href="{{ path('_planet_report_links_test') }}">Estado de las fuentes</a>
+      </li>
+    </ul>
+  </article>
+{% endblock %}

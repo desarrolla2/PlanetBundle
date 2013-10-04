@@ -10,7 +10,7 @@
  * with this package in the file LICENSE.
  */
 
-namespace Desarrolla2\Bundle\PlanetBundle\Handler;
+namespace Desarrolla2\Bundle\PlanetBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Manager\PostManager;

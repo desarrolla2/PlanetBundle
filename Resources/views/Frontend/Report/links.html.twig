@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th colspan="6">Últimos meses</th>
+                <th colspan="6">Últimos 6 meses desglosado</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -16,13 +16,13 @@
             {% for item in results%}
                 <tr>
                     <td><a href="{{ item.url }}" target="_blank">{{ item.name }}</a></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>100</td>
+                    <td>{{ item.months.0 }}</td>
+                    <td>{{ item.months.1 }}</td>
+                    <td>{{ item.months.2 }}</td>
+                    <td>{{ item.months.3 }}</td>
+                    <td>{{ item.months.4 }}</td>
+                    <td>{{ item.months.5 }}</td>
+                    <td>{{ item.total }}</td>
                 </tr>
             {% endfor %}
             </tbody>

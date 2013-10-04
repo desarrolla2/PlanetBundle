@@ -4,6 +4,8 @@ namespace Desarrolla2\Bundle\PlanetBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
+use Desarrolla2\Bundle\BlogBundle\Entity\Link;
+use DateTime;
 
 /**
  * LinkPostRepository
@@ -13,6 +15,10 @@ use Desarrolla2\Bundle\BlogBundle\Entity\Post;
  */
 class LinkPostRepository extends EntityRepository
 {
+    /**
+     * @param Post $post
+     * @return mixed
+     */
     public function getLink(Post $post)
     {
         $em = $this->getEntityManager();
@@ -20,13 +26,38 @@ class LinkPostRepository extends EntityRepository
             ' SELECT lp ' .
             ' FROM PlanetBundle:LinkPost lp ' .
             ' WHERE lp.post = :post'
-        )->setParameter('post', $post)
+        )
+            ->setParameter('post', $post)
             ->setMaxResults(1);
 
-        $lp =  $query->getOneOrNullResult();
-        if(!$lp){
-            return;
+        $lp = $query->getOneOrNullResult();
+        if (!$lp) {
+            return false;
         }
+
         return $lp->getLink();
+    }
+
+    /**
+     * @param Link     $link
+     * @param DateTime $from
+     * @param DateTime $to
+     * @return int
+     */
+    public function countFromTo(Link $link, DateTime $from, DateTime $to)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            ' SELECT COUNT(lp) FROM PlanetBundle:LinkPost lp' .
+            ' WHERE lp.link = :link ' .
+            ' AND lp.createdAt > :from ' .
+            ' AND lp.createdAt <= :to  '
+        )
+            ->setParameter('link', $link)
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
+        ;
+
+        return $query->getSingleScalarResult();
     }
 }
