@@ -11,15 +11,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * @Route("/report")
  */
-class ReportController extends Controller
+class UnrelatedController extends Controller
 {
 
 
     /**
-     * @Route("/unrelated" , name="_planet_backend_report_unrelated")
+     * @Route("/unrelated" , name="_planet_backend_unrelated")
      * @Template()
      */
-    public function reportAction()
+    public function indexAction()
     {
         $unrelated =
             $this->getDoctrine()->getManager()
@@ -32,7 +32,7 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/unrelated/{id}/clean" , name="_planet_backend_report_unrelated_clean")
+     * @Route("/unrelated/{id}/clean" , name="_planet_backend_unrelated_clean")
      * @Template()
      */
     public function cleanAction(Request $request)

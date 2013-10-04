@@ -24,9 +24,9 @@
                     {% if not entity.isPublished %}<i class="icon-remove"></i> {% endif %}
                 </td>
                 <td>
-                    <a class="bnt btn-mini" href="{{ url('post_unpublish', { 'id': entity.id }) }}" title="un publish"><i class="icon-remove"></i></a>
-                    <a class="bnt btn-mini" href="{{ url('post_preview', { 'id': entity.id }) }}" title="preview" target="_blank"> <i class="icon-eye-open"></i> </a>
-                    <a class="bnt btn-mini" href="{{ url('_unrelated_clean', { 'id': entity.id }) }}" title="clean" > <i class="icon-repeat"></i> </a>
+                    <a class="bnt btn-mini" href="{{ url('_blog_backend_post_unpublish', { 'id': entity.id }) }}" title="un publish"><i class="icon-remove"></i></a>
+                    <a class="bnt btn-mini" href="{{ url('_blog_backend_post_preview', { 'id': entity.id }) }}" title="preview" target="_blank"> <i class="icon-eye-open"></i> </a>
+                    <a class="bnt btn-mini" href="{{ url('_planet_backend_unrelated_clean', { 'id': entity.id }) }}" title="clean" > <i class="icon-repeat"></i> </a>
                 </td>
             </tr>
             {% endfor %}
