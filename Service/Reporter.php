@@ -72,7 +72,7 @@ class Reporter
                 $this->client->clearErrors();
                 $this->client->setFeed($link->getRSS(), $link->getName());
                 try {
-                    $feeds = $this->client->fetch();
+                    $feeds = $this->client->fetch($link->getName());
                     if ($feeds) {
                         if ($feeds->count()) {
                             $result->setItems($feeds->count());
