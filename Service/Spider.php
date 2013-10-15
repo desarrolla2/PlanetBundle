@@ -15,7 +15,7 @@ use Desarrolla2\Bundle\BlogBundle\Entity\Author;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
-use Desarrolla2\Bundle\PlanetBundle\Entity\LinkPost;
+use Desarrolla2\Bundle\PlanetBundle\Entity\PostLink;
 use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
 use Desarrolla2\Bundle\PlanetBundle\Event\PostEvent;
 use Desarrolla2\Bundle\PlanetBundle\Event\PostEvents;
@@ -35,7 +35,7 @@ use \DateTime;
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  */
 
-class Spider
+class Spider extends AbstractService
 {
     /**
      *
@@ -52,11 +52,6 @@ class Spider
      * @var EventDispatcher
      */
     protected $dispatcher;
-
-    /**
-     * @var LoggerInterface;
-     */
-    protected $logger;
 
     /**
      * @var \Doctrine\DBAL\Connection
@@ -147,7 +142,7 @@ class Spider
         try {
             $this->notify(' > New post "' . $feed->getTitle() . '"');
             $post = $this->createPost($feed);
-            $this->createLinkPost($link, $post);
+            $this->createPostLink($link, $post);
             $this->dispatcher->dispatch(
                 PostEvents::CREATED,
                 new PostEvent($post)
@@ -191,9 +186,9 @@ class Spider
      * @param Post $post
      * @param Post $post
      */
-    protected function createLinkPost(Link $link, Post $post)
+    protected function createPostLink(Link $link, Post $post)
     {
-        $entity = new LinkPost();
+        $entity = new PostLink();
         $entity->setPost($post);
         $entity->setLink($link);
 
@@ -335,15 +330,5 @@ class Spider
         $pattern = '#\.gif#';
 
         return (bool)preg_match($pattern, $imageUrl);
-    }
-
-    /**
-     * @param string $message
-     * @param string $logLevel
-     * @param array  $context
-     */
-    private function notify($message, $logLevel = LogLevel::INFO, $context = array())
-    {
-        $this->logger->log($logLevel, '[spider] ' . $message, $context);
     }
 }

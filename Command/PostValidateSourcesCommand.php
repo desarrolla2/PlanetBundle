@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @file   : PostCommand.php , UTF-8
  * @date   : May 18, 2013 , 2:31:41 AM
  */
-class PostCleanInvalidSourcesCommand extends ContainerAwareCommand
+class PostValidateSourcesCommand extends ContainerAwareCommand
 {
 
     protected $output;
@@ -37,7 +37,7 @@ class PostCleanInvalidSourcesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('planet:post:clean-invalid-sources')
+            ->setName('planet:post:sources:validate')
             ->setDescription('Not ready yet');
     }
 
@@ -53,10 +53,13 @@ class PostCleanInvalidSourcesCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface  $input  Inpunt arguments
-     * @param OutputInterface $output Output stream
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $handler = $this->getContainer()->get('planet.post.handler');
+        $handler->validateSources();
     }
 }

@@ -115,7 +115,7 @@ class Reporter
                 $to = clone $now;
                 $from->modify('-' . ($month + 1) . ' months');
                 $to->modify('-' . ($month) . ' months');
-                $months[] = $this->em->getRepository('PlanetBundle:LinkPost')->countFromTo($link, $from, $to);
+                $months[] = $this->em->getRepository('PlanetBundle:PostLink')->countFromTo($link, $from, $to);
             }
             $item->setMonths($months);
             $result[] = $item;
@@ -137,6 +137,10 @@ class Reporter
         return $links;
     }
 
+    /**
+     * @param Link $link
+     * @return LinkStatus
+     */
     protected function createLinkStatus(Link $link)
     {
         $result = new LinkStatus();

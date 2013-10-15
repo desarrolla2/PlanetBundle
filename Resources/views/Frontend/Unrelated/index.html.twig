@@ -1,5 +1,5 @@
 {% extends "::frontend.html.twig" %}
-{% block meta %}<meta name="robots" content="noindex">{% endblock %}
+{% block meta_robots %}noindex{% endblock %}
 {% block title %} Informar de contenido no relacionado {% endblock %}
 {% block content %}    
 <article>
@@ -24,14 +24,14 @@
     </p>
 
 
-    <form id="contact" action="{{ url('_unrelated', {'slug': post.slug }) }}" method="post" {{ form_enctype(form) }}>
-            {% if form_errors(form) %} 
+    <form id="contact" action="{{ url('_unrelated', {'slug': post.slug }) }}" method="post" {{ form_enctype(form) }} class="row-captcha">
+            {% if form_errors(form) %}
             <div class="alert alert-error">{{ form_errors(form) }}</div>
             {% endif %}                        
             <p>
                 <label for="">(*)¿Eres humano?</label>
             {% if form_errors(form.captcha) %} 
-            <div class="alert alert-error">{{ form_errors(form.captcha) }}</div>
+            <div class="alert alert-error ">{{ form_errors(form.captcha) }}</div>
             {% endif %}                
             {{ form_widget(form.captcha, { 'attr': {'class': 'captcha'}} ) }}
             </p>   

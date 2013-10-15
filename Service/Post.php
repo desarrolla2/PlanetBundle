@@ -14,6 +14,8 @@ namespace Desarrolla2\Bundle\PlanetBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Manager\PostManager;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  *
@@ -23,7 +25,7 @@ use Desarrolla2\Bundle\BlogBundle\Manager\PostManager;
  * @file   : Post.php , UTF-8
  * @date   : May 18, 2013 , 2:32:55 AM
  */
-class Post
+class Post extends AbstractService
 {
 
     /**
@@ -63,8 +65,34 @@ class Post
     /**
      *
      */
-    public function cleanInvalidSources()
+    public function validateSources()
     {
-        // @TODO: Clean invalid sources.
+        $total = $this->em->getRepository('BlogBundle:Post')->countPublishedWithSource();
+        ldd($total);
+        // contar el total de publicados con fuentes.
+        // recuperar la lista de publicados que tienen fuentes en pasos de 20
+        $posts = array();
+        foreach ($posts as $post) {
+            // pedirle a guzzle si la url responde algo que no es un 200
+            // generar logs
+            $error = $this->em->getRepository('BlogBundle:PostSourceError')->getForPost($post);
+            if (!$error->getErrors() >= 3) {
+                // limpiar la fuente del error;
+            }
+            $error->increase();
+
+            $this->em->persist($error);
+        }
+
+        $this->em->flush();
+    }
+
+    private function getPostPublishedWithSource()
+    {
+    }
+
+
+    private function countPostPublishedWithSource()
+    {
     }
 }

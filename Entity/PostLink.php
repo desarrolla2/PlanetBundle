@@ -15,13 +15,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  *
- * Class LinkPost
+ * Class PostLink
+ *
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  * @ORM\Table(name="link_post")
- * @ORM\Entity(repositoryClass="Desarrolla2\Bundle\PlanetBundle\Entity\Repository\LinkPostRepository")
+ * @ORM\Entity(repositoryClass="Desarrolla2\Bundle\PlanetBundle\Entity\Repository\PostLinkRepository")
  */
-class LinkPost
+class PostLink
 {
     /**
      * @var integer $id
@@ -135,7 +136,7 @@ class LinkPost
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return LinkPost
+     * @return PostLink
      */
     public function setCreatedAt($createdAt)
     {
@@ -158,7 +159,7 @@ class LinkPost
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return LinkPost
+     * @return PostLink
      */
     public function setUpdatedAt($updatedAt)
     {
