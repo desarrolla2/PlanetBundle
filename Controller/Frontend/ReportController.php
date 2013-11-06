@@ -20,11 +20,8 @@ use Desarrolla2\Bundle\PlanetBundle\Service\Reporter;
  * Class ReportController
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
- */
-
-/**
+ *
  * @Route("/report")
- * @Template()
  */
 class ReportController extends Controller
 {
@@ -63,12 +60,81 @@ class ReportController extends Controller
      */
     public function testLinksAction(Request $request)
     {
-
         $client = $this->container->get('planet.reporter');
         $results = $client->getLinksStatus();
 
         return array(
             'results' => $results,
         );
+    }
+
+
+    /**
+     *
+     * @Route("/link", name="_planet_report_link_list")
+     * @Template()
+     */
+    public function linkAction()
+    {
+        return array(
+            'links' =>
+                $this->getDoctrine()->getManager()
+                    ->getRepository('BlogBundle:Link')->getActiveOrdered()
+        );
+    }
+
+    /**
+     *
+     * @Route(
+     *      "/link/{slug}/{page}",
+     *      name="_planet_report_link_items",
+     *      requirements={"slug"="[\w\d\-]+", "page"="\d{1,6}"},
+     *      defaults={"page" = "1"}
+     * )
+     * @Template()
+     */
+    public function linkViewAction(Request $request)
+    {
+        $paginator = $this->get('knp_paginator');
+
+        $link = $this->getDoctrine()->getManager()
+            ->getRepository('BlogBundle:Link')->getOneBySlug($request->get('slug', false));
+
+        if (!$link) {
+            throw $this->createNotFoundException('Link not found');
+        }
+
+        $query = $this->getDoctrine()->getManager()
+            ->getRepository('PlanetBundle:PostLink')->getQueryForGetByLink($link);
+
+        try {
+            $pagination = $paginator->paginate(
+                $query,
+                $this->getPage(),
+                $this->container->getParameter('blog.items')
+            );
+        } catch (QueryException $e) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        return array(
+            'link' => $link,
+            'page' => $this->getPage(),
+            'pagination' => $pagination,
+        );
+    }
+
+    /**
+     * @return int
+     */
+    protected function getPage()
+    {
+        $request = $this->getRequest();
+        $page = (int)$request->get('page', 1);
+        if ($page < 1) {
+            $this->createNotFoundException('Page number is not valid' . $page);
+        }
+
+        return $page;
     }
 }

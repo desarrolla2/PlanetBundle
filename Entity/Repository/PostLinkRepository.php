@@ -5,6 +5,7 @@ namespace Desarrolla2\Bundle\PlanetBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
+use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
 use DateTime;
 
 /**
@@ -55,9 +56,34 @@ class PostLinkRepository extends EntityRepository
         )
             ->setParameter('link', $link)
             ->setParameter('from', $from)
-            ->setParameter('to', $to)
-        ;
+            ->setParameter('to', $to);
 
         return $query->getSingleScalarResult();
+    }
+
+    /**
+     * @param Link $link
+     * @return \Doctrine\ORM\Query
+     */
+    public function getQueryForGetByLink(Link $link)
+    {
+        $em = $this->getEntityManager();
+        /*
+        ' SELECT p FROM BlogBundle:Post p ' .
+        ' JOIN p.LinkPost lp ' .
+        ' WHERE lp.link = :link ' .
+        ' AND p.status = ' . PostStatus::PUBLISHED .
+        ' ORDER BY p.promotion DESC, p.publishedAt DESC '
+        */
+        $query = $em->createQuery(
+            ' SELECT lp, p FROM PlanetBundle:PostLink lp ' .
+            ' JOIN lp.post p ' .
+            ' WHERE lp.link = :link ' .
+            ' AND p.status = ' . PostStatus::PUBLISHED .
+            ' ORDER BY p.promotion DESC, p.publishedAt DESC '
+        )
+            ->setParameter('link', $link);
+
+        return $query;
     }
 }

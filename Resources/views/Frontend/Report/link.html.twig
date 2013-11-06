@@ -1,0 +1,24 @@
+{% extends "::frontend.html.twig" %}
+{% block content %}
+  <article class="report">
+    <header>
+      <h2><a href="{{ path('_planet_report_link_list') }}">Informe de las fuentes del planeta</a></h2>
+    </header>
+
+    <p>
+      Esta es la lista de fuentes de contenido del planeta, selecciona una a continuación para ver los elementos
+      publicados por la fuente
+    </p>
+
+    {% for link in links %}
+      <h3>
+        <a href="{{ path('_planet_report_link_items', {'slug': link.slug }) }}" title="{{ link }}">{{ link }}</a>
+      </h3>
+
+      {{ link.description|raw }}
+    {% else %}
+      <p>No hay elementos</p>
+    {% endfor %}
+
+  </article>
+{% endblock %}

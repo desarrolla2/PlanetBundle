@@ -1,0 +1,18 @@
+{% extends "::frontend.html.twig" %}
+{% block content %}
+  <header>
+    <h2>
+      Informe: <a href="{{ path('_planet_report_link_items', {'slug': link.slug }) }}">{{ link }}</a></h2>
+  </header>
+
+  <p>Estas son las entradas relacionadas con la fuente.</p>
+
+  {% for post_link in pagination %}
+    {% include 'BlogBundle:Frontend/Post:item.html.twig' with {'post': post_link.post} %}
+  {% else %}
+    <p>No hay elementos</p>
+  {% endfor %}
+
+  <div class="navigation">{{ knp_pagination_render(pagination) }}</div>
+
+{% endblock %}
