@@ -40,10 +40,10 @@ class ReportController extends Controller
     }
 
     /**
-     * @Route("/links", name="_planet_report_links")
+     * @Route("/link-rate", name="_planet_report_link_rate")
      * @Template()
      */
-    public function linksAction()
+    public function linkRateAction()
     {
         $this->reporter = $this->container->get('planet.reporter');
         $results = $this->reporter->getLinksStatistics();
@@ -55,10 +55,10 @@ class ReportController extends Controller
 
     /**
      *
-     * @Route("/test-links", name="_planet_report_links_test")
+     * @Route("/link-status", name="_planet_report_links_status")
      * @Template()
      */
-    public function testLinksAction(Request $request)
+    public function linkStatusAction(Request $request)
     {
         $client = $this->container->get('planet.reporter');
         $results = $client->getLinksStatus();
