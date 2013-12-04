@@ -10,7 +10,6 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Service;
 
-
 use Desarrolla2\Bundle\BlogBundle\Entity\Author;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
@@ -92,7 +91,11 @@ class Spider extends AbstractService
         }
 
         foreach ($links as $link) {
-            $this->retrieveItemsForLink($link);
+            try {
+                $this->retrieveItemsForLink($link);
+            } catch (\Exception $e) {
+                $this->notify($e->getMessage(), LogLevel::ERROR);
+            }
         }
     }
 
@@ -100,6 +103,7 @@ class Spider extends AbstractService
      * Retrieve and save items for link
      *
      * @param Link $link
+     *
      * @throws \Exception
      */
     public function retrieveItemsForLink(Link $link)
@@ -134,6 +138,7 @@ class Spider extends AbstractService
     /**
      * @param Link   $link
      * @param string $feed
+     *
      * @throws \Exception
      */
     public function parseFeed(Link $link, $feed)
@@ -151,10 +156,9 @@ class Spider extends AbstractService
         } catch (\Exception $e) {
             $this->notify($e->getMessage(), LogLevel::ERROR);
             $this->conn->rollback();
-            throw $e;
+            //throw $e;
         }
     }
-
 
     /**
      *
@@ -170,6 +174,7 @@ class Spider extends AbstractService
     /**
      *
      * @param string $feed
+     *
      * @return PostGuid
      */
     protected function getGuid($feed)
@@ -198,6 +203,7 @@ class Spider extends AbstractService
 
     /**
      * @param Node $feed
+     *
      * @return Post
      */
     protected function createPost(Node $feed)
@@ -228,6 +234,7 @@ class Spider extends AbstractService
     /**
      *
      * @param $string
+     *
      * @return
      * @internal param \Desarrolla2\Bundle\PlanetBundle\Handler\type $entity
      */
@@ -249,6 +256,7 @@ class Spider extends AbstractService
 
     /**
      * @param array $tags
+     *
      * @return array
      */
     protected function cleanTags($tags)
@@ -286,6 +294,7 @@ class Spider extends AbstractService
      *
      * @param $entity
      * @param $guidString
+     *
      * @internal param \Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid $guid
      */
     protected function setGUID($entity, $guidString)
@@ -301,6 +310,7 @@ class Spider extends AbstractService
      *
      * @param $entity
      * @param $email
+     *
      * @return \Desarrolla2\Bundle\BlogBundle\Entity\Author
      */
     protected function setAuthor($entity, $email)
@@ -323,6 +333,7 @@ class Spider extends AbstractService
     /**
      *
      * @param string $imageUrl
+     *
      * @return bool
      */
     private function isGifImage($imageUrl)
