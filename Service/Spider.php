@@ -24,7 +24,7 @@ use Desarrolla2\RSSClient\RSSClientInterface;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use \DOMDocument;
 use \DateTime;
 
@@ -48,7 +48,7 @@ class Spider extends AbstractService
     protected $client;
 
     /**
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $dispatcher;
 
@@ -58,14 +58,14 @@ class Spider extends AbstractService
     protected $conn;
 
     /**
-     * @param EntityManager      $em
-     * @param EventDispatcher    $dispatcher
-     * @param RSSClientInterface $client
-     * @param LoggerInterface    $logger
+     * @param EntityManager            $em
+     * @param EventDispatcherInterface $dispatcher
+     * @param RSSClientInterface       $client
+     * @param LoggerInterface          $logger
      */
     public function __construct(
         EntityManager $em,
-        EventDispatcher $dispatcher,
+        EventDispatcherInterface $dispatcher,
         RSSClientInterface $client,
         LoggerInterface $logger
     ) {
