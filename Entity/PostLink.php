@@ -19,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
- * @ORM\Table(name="link_post")
+ * @ORM\Table(name="post_link")
  * @ORM\Entity(repositoryClass="Desarrolla2\Bundle\PlanetBundle\Entity\Repository\PostLinkRepository")
  */
 class PostLink
