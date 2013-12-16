@@ -115,7 +115,6 @@ class Spider extends AbstractService
 
             return;
         }
-
         $this->client->setFeed($link->getRSS(), $link->getName());
         $feeds = $this->client->fetch($link->getName(), 25);
         if (!$feeds) {
@@ -139,6 +138,8 @@ class Spider extends AbstractService
      * @param Link   $link
      * @param string $feed
      *
+     * @return Post
+     *
      * @throws \Exception
      */
     public function parseFeed(Link $link, $feed)
@@ -148,15 +149,19 @@ class Spider extends AbstractService
             $this->notify(' > New post "' . $feed->getTitle() . '"');
             $post = $this->createPost($feed);
             $this->createPostLink($link, $post);
+
             $this->dispatcher->dispatch(
                 PostEvents::CREATED,
                 new PostEvent($post)
             );
             $this->conn->commit();
+
+            return $post;
+
         } catch (\Exception $e) {
-            $this->notify($e->getMessage(), LogLevel::ERROR);
             $this->conn->rollback();
-            //throw $e;
+            $this->notify($e->getMessage(), LogLevel::ERROR);
+            // throw $e;
         }
     }
 
@@ -208,6 +213,7 @@ class Spider extends AbstractService
      */
     protected function createPost(Node $feed)
     {
+        $image = $this->getImage($feed->getDescription());
         $entity = new Post();
 
         $entity->setName($feed->getTitle());
@@ -216,7 +222,7 @@ class Spider extends AbstractService
         $entity->setStatus(PostStatus::PRE_PUBLISHED);
         $entity->setSource($feed->getLink());
         $entity->setPublishedAt(new DateTime());
-        $entity->setImage($this->getImage($feed->getDescription()));
+        $entity->setImage($image);
         $this->em->persist($entity);
 
         $this->setGUID($entity, $feed->getGuid());
