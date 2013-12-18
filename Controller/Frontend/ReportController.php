@@ -79,7 +79,7 @@ class ReportController extends Controller
         return array(
             'links' =>
                 $this->getDoctrine()->getManager()
-                    ->getRepository('BlogBundle:Link')->getActiveOrdered()
+                    ->getRepository('BlogBundle:Link')->findAll()
         );
     }
 
