@@ -125,6 +125,22 @@ class ReportController extends Controller
     }
 
     /**
+     * @Route("/unrelated" , name="_planet_report_unrelated")
+     * @Template()
+     */
+    public function unrelatedAction()
+    {
+        $unrelated =
+            $this->getDoctrine()->getManager()
+                ->getRepository('PlanetBundle:Unrelated')
+                ->getPublished();
+
+        return array(
+            'unrelated' => $unrelated,
+        );
+    }
+
+    /**
      * @return int
      */
     protected function getPage()

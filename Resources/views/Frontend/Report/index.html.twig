@@ -1,11 +1,47 @@
 {% extends "::frontend.html.twig" %}
 {% block content %}
-  <article class=" rows">
+  <article class="report row">
     <header>
       <h2><a href="{{ path('_planet_report') }}">Informes del sitio</a></h2>
     </header>
 
     <p>A continuación puedes ver los diferentes informes generados para el planeta</p>
+
+    <h3>
+      Entradas más valoradas
+      <a href="{{ path('_blog_report_most_rated',{'period': 'yesterday' } ) }}">Ayer</a> |
+      <a href="{{ path('_blog_report_most_rated',{'period': 'yesterday' } ) }}">Último més</a> |
+      <a href="{{ path('_blog_report_most_rated',{'period': 'yesterday' } ) }}">Último año</a> |
+      <a href="{{ path('_blog_report_most_rated',{'period': 'yesterday' } ) }}">Siempre</a>
+    </h3>
+
+    <p>
+      Este informe muestra un resumen de las entradas más valoradas por nuestros usuarios.
+    </p>
+
+{#    <h3>
+      Entradas más visitadas
+      <a href="#">Ayer</a> |
+      <a href="#">Último més</a> |
+      <a href="#">Último año</a> |
+      <a href="#">Siempre</a>
+    </h3>
+
+    <p>
+      Este informe muestra un resumen de las entradas más visitadas por nuestros usuarios.
+    </p>
+
+    <h3>
+      Entradas más comentadas
+      <a href="#">Ayer</a> |
+      <a href="#">Último més</a> |
+      <a href="#">Último año</a> |
+      <a href="#">Siempre</a>
+    </h3>
+
+    <p>
+      Este informe muestra un resumen de las entradas más comentadas por nuestros usuarios.
+    </p>#}
 
     <h3><a href="{{ path('_blog_report') }}">Ritmo de entradas publicadas</a></h3>
 
@@ -19,7 +55,7 @@
       Este informe muestra el número de entradas publicadas por cada fuente durante cada uno de los últimos seis meses.
     </p>
 
-    <h3><a href="">Entradas no relacionadas</a></h3>
+    <h3><a href="{{ path('_planet_report_unrelated') }}">Entradas no relacionadas</a></h3>
 
     <p>
       Este informe muestra aquellas entradas que fueron marcadas como no relacionadas.

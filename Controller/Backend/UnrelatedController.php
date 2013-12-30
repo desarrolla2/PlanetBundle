@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class UnrelatedController
@@ -49,6 +50,6 @@ class UnrelatedController extends Controller
             ->getRepository('PlanetBundle:Unrelated')
             ->clean($post);
 
-        return new RedirectResponse($this->generateUrl('_unrelated_report'), 302);
+        return new RedirectResponse($this->generateUrl('_planet_backend_unrelated'), 302);
     }
 }

@@ -1,0 +1,26 @@
+{% extends "::frontend.html.twig" %}
+{% block content %}
+  <article class="report">
+    <header>
+      <h2><a href="{{ path('_planet_report_unrelated') }}">Entradas no relacionadas</a></h2>
+    </header>
+
+    <p>
+      A continuación puedes ver las entradas que han sido marcadas como no relacionadas.
+    </p>
+
+    <ul>
+      {% for u in unrelated %}
+        {% set entity = u.un.post %}
+        <li>
+          <span class="rating negative">{{ u.n }}</span>
+
+          {{ entity }}
+        </li>
+      {% else %}
+        <li>No hay elementos</li>
+      {% endfor %}
+    </ul>
+
+  </article>
+{% endblock %}
