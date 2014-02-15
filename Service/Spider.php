@@ -19,21 +19,20 @@ use Desarrolla2\Bundle\PlanetBundle\Entity\PostGuid;
 use Desarrolla2\Bundle\PlanetBundle\Event\PostEvent;
 use Desarrolla2\Bundle\PlanetBundle\Event\PostEvents;
 use Desarrolla2\Bundle\PlanetBundle\Helper\PostHelper;
-use Desarrolla2\RSSClient\Node\Node;
-use Desarrolla2\RSSClient\RSSClientInterface;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use \DOMDocument;
 use \DateTime;
+use FastFeed\FastFeed;
+use FastFeed\Item;
 
 /**
  * Class Spider
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  */
-
 class Spider extends AbstractService
 {
     /**
@@ -45,7 +44,7 @@ class Spider extends AbstractService
     /**
      * @var RSSClientInterface
      */
-    protected $client;
+    protected $fastFeed;
 
     /**
      * @var EventDispatcherInterface
@@ -60,18 +59,18 @@ class Spider extends AbstractService
     /**
      * @param EntityManager            $em
      * @param EventDispatcherInterface $dispatcher
-     * @param RSSClientInterface       $client
+     * @param FastFeed                 $fastFeed
      * @param LoggerInterface          $logger
      */
     public function __construct(
         EntityManager $em,
         EventDispatcherInterface $dispatcher,
-        RSSClientInterface $client,
+        FastFeed $fastFeed,
         LoggerInterface $logger
     ) {
         $this->em = $em;
         $this->dispatcher = $dispatcher;
-        $this->client = $client;
+        $this->fastFeed = $fastFeed;
         $this->logger = $logger;
         $this->conn = $this->em->getConnection();
     }
@@ -115,39 +114,37 @@ class Spider extends AbstractService
 
             return;
         }
-        $this->client->setFeed($link->getRSS(), $link->getName());
-        $feeds = $this->client->fetch($link->getName(), 25);
-        if (!$feeds) {
+        $this->fastFeed->setFeed($link->getName(), $link->getRSS());
+        $items = $this->fastFeed->fetch($link->getName());
+        if (!$items) {
             $this->notify('Link with id "' . $link->getId() . '" have`nt elements', LogLevel::WARNING);
 
             return;
         }
-        if (!$feeds->count()) {
+        if (!count ($items)) {
             $this->notify('Link with id "' . $link->getId() . '" have`nt elements', LogLevel::WARNING);
         }
-        $this->notify(' >> found "' . $feeds->count() . '" elements');
-        foreach ($feeds as $feed) {
-            $guid = $this->getGuid($feed);
+        $this->notify(' >> found "' . count ($items). '" elements');
+        foreach ($items as $item) {
+            $guid = $this->getGuid($item);
             if (!$guid) {
-                $this->parseFeed($link, $feed);
+                $this->parseFeed($link, $item);
             }
         }
     }
 
     /**
-     * @param Link   $link
-     * @param string $feed
+     * @param Link $link
+     * @param Item $item
      *
      * @return Post
-     *
-     * @throws \Exception
      */
-    public function parseFeed(Link $link, $feed)
+    public function parseFeed(Link $link, Item $item)
     {
         $this->conn->beginTransaction();
         try {
-            $this->notify(' > New post "' . $feed->getTitle() . '"');
-            $post = $this->createPost($feed);
+            $this->notify(' > New post "' . $item->getName() . '"');
+            $post = $this->createPost($item);
             $this->createPostLink($link, $post);
 
             $this->dispatcher->dispatch(
@@ -177,16 +174,15 @@ class Spider extends AbstractService
     }
 
     /**
+     * @param Item $item
      *
-     * @param string $feed
-     *
-     * @return PostGuid
+     * @return null|object
      */
-    protected function getGuid($feed)
+    protected function getGuid(Item $item)
     {
         return $this->em->getRepository('PlanetBundle:PostGuid')->findOneBy(
             array(
-                'guid' => $feed->getGuid(),
+                'guid' => $item->getId(),
             )
         );
     }
@@ -207,57 +203,34 @@ class Spider extends AbstractService
     }
 
     /**
-     * @param Node $feed
+     * @param Item $item
      *
      * @return Post
      */
-    protected function createPost(Node $feed)
+    protected function createPost(Item $item)
     {
-        $image = $this->getImage($feed->getDescription());
         $entity = new Post();
 
-        $entity->setName($feed->getTitle());
-        $entity->setIntro(PostHelper::doCleanIntro($feed->getDescription()));
-        $entity->setContent(PostHelper::doCleanContent($feed->getDescription()));
-        $entity->setStatus(PostStatus::PRE_PUBLISHED);
-        $entity->setSource($feed->getLink());
-        $entity->setPublishedAt(new DateTime());
-        $entity->setImage($image);
+        $entity->setName($item->getName());
+        $entity->setIntro(PostHelper::doCleanIntro($item->getIntro()));
+        $entity->setContent(PostHelper::doCleanContent($item->getContent()));
+        $entity->setStatus(PostStatus::PUBLISHED);
+        $entity->setSource($item->getSource());
+        $entity->setPublishedAt($item->getDate());
+        $entity->setCreatedAt($item->getDate());
+        $entity->setImage($item->getImage());
         $this->em->persist($entity);
 
-        $this->setGUID($entity, $feed->getGuid());
-        $this->setTags($entity, $tags = $feed->getCategories());
-        if ($feed->getAuthor()) {
-            $this->setAuthor($entity, $feed->getAuthor());
+        $this->setGUID($entity, $item->getId());
+        $this->setTags($entity, $tags = $item->getTags());
+        if ($item->getAuthor()) {
+            $this->setAuthor($entity, $item->getAuthor());
         }
 
         $this->em->persist($entity);
         $this->em->flush();
 
         return $entity;
-    }
-
-    /**
-     *
-     * @param $string
-     *
-     * @return
-     * @internal param \Desarrolla2\Bundle\PlanetBundle\Handler\type $entity
-     */
-    protected function getImage($string)
-    {
-        $DOM = new DOMDocument();
-        $DOM->loadHTML($string);
-        $DOM->preserveWhiteSpace = false;
-        $images = $DOM->getElementsByTagName('img');
-        foreach ($images as $image) {
-            $src = $image->getAttribute('src');
-            if ($this->isGifImage($src)) {
-                continue;
-            }
-
-            return $src;
-        }
     }
 
     /**
@@ -308,7 +281,6 @@ class Spider extends AbstractService
         $guid = new PostGuid();
         $guid->setGuid($guidString);
         $guid->setPost($entity);
-        $guid->setPublishedAt(new DateTime());
         $this->em->persist($guid);
     }
 
@@ -334,18 +306,5 @@ class Spider extends AbstractService
             $this->em->persist($author);
         }
         $entity->setAuthor($author);
-    }
-
-    /**
-     *
-     * @param string $imageUrl
-     *
-     * @return bool
-     */
-    private function isGifImage($imageUrl)
-    {
-        $pattern = '#\.gif#';
-
-        return (bool)preg_match($pattern, $imageUrl);
     }
 }

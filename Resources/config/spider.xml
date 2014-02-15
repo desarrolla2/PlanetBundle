@@ -12,7 +12,7 @@
         <service id="planet.spider" class="%planet.spider.class%">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="rss_client.cache"/>
+            <argument type="service" id="fastfeed"/>
             <argument type="service" id="logger"/>
         </service>
     </services>
