@@ -25,7 +25,7 @@ use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use \DOMDocument;
 use \DateTime;
-use FastFeed\FastFeed;
+use FastFeed\FastFeedInterface;
 use FastFeed\Item;
 
 /**
@@ -65,7 +65,7 @@ class Spider extends AbstractService
     public function __construct(
         EntityManager $em,
         EventDispatcherInterface $dispatcher,
-        FastFeed $fastFeed,
+        FastFeedInterface $fastFeed,
         LoggerInterface $logger
     ) {
         $this->em = $em;

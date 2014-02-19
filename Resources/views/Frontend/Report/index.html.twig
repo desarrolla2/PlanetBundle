@@ -7,43 +7,11 @@
 
     <p>A continuación puedes ver los diferentes informes generados para el planeta</p>
 
-    <h3>Entradas más valoradas</h3>
+    <h3><a href="{{ path('_blog_report_most_rated',{'period': 'last-week' } ) }}">Entradas más valoradas</a></h3>
 
     <p>
       Este informe muestra un resumen de las entradas más valoradas por nuestros usuarios.
     </p>
-
-    <ul>
-      <li><a href="{{ path('_blog_report_most_rated',{'period': 'yesterday' } ) }}">Ayer</a></li>
-      <li><a href="{{ path('_blog_report_most_rated',{'period': 'last-week' } ) }}">Última semana</a></li>
-      <li><a href="{{ path('_blog_report_most_rated',{'period': 'last-month' } ) }}">Último més</a></li>
-      <li><a href="{{ path('_blog_report_most_rated',{'period': 'last-year' } ) }}">Último año</a></li>
-      <li><a href="{{ path('_blog_report_most_rated',{'period': 'ever' } ) }}">Siempre</a></li>
-    </ul>
-
-    {#    <h3>
-          Entradas más visitadas
-          <a href="#">Ayer</a> |
-          <a href="#">Último més</a> |
-          <a href="#">Último año</a> |
-          <a href="#">Siempre</a>
-        </h3>
-
-        <p>
-          Este informe muestra un resumen de las entradas más visitadas por nuestros usuarios.
-        </p>
-
-        <h3>
-          Entradas más comentadas
-          <a href="#">Ayer</a> |
-          <a href="#">Último més</a> |
-          <a href="#">Último año</a> |
-          <a href="#">Siempre</a>
-        </h3>
-
-        <p>
-          Este informe muestra un resumen de las entradas más comentadas por nuestros usuarios.
-        </p>#}
 
     <h3><a href="{{ path('_blog_report') }}">Ritmo de entradas publicadas</a></h3>
 

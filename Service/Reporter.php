@@ -10,7 +10,7 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Service;
 
-use Desarrolla2\RSSClient\RSSClientInterface;
+use FastFeed\FastFeedInterface;
 use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
 use Desarrolla2\Bundle\PlanetBundle\Model\Report\LinksStatistics;
@@ -24,10 +24,8 @@ use DateTime;
  *
  * @author Daniel González <daniel.gonzalez@freelancemadrid.es>
  */
-
 class Reporter
 {
-
     /**
      *
      * @var \Doctrine\ORM\EntityManager;
@@ -35,7 +33,7 @@ class Reporter
     protected $em;
 
     /**
-     * @var \Desarrolla2\RSSClient\RSSClientInterface
+     * @var FastFeedInterface
      */
     protected $client;
 
@@ -45,12 +43,11 @@ class Reporter
     protected $cache;
 
     /**
-     *
-     * @param \Doctrine\ORM\EntityManager               $em
-     * @param \Desarrolla2\RSSClient\RSSClientInterface $client
-     * @param \Desarrolla2\Cache\Cache                  $cache
+     * @param EntityManager     $em
+     * @param FastFeedInterface $client
+     * @param Cache             $cache
      */
-    public function __construct(EntityManager $em, RSSClientInterface $client, Cache $cache)
+    public function __construct(EntityManager $em, FastFeedInterface $client, Cache $cache)
     {
         $this->em = $em;
         $this->client = $client;
@@ -69,18 +66,13 @@ class Reporter
             if ($link->getRSS()) {
                 $time_start = microtime(true);
                 $result = $this->createLinkStatus($link);
-                $this->client->clearErrors();
-                $this->client->setFeed($link->getRSS(), $link->getName());
+                $this->client->setFeed($link->getName(), $link->getRSS());
                 try {
                     $feeds = $this->client->fetch($link->getName());
                     if ($feeds) {
-                        if ($feeds->count()) {
-                            $result->setItems($feeds->count());
+                        if (count($feeds)) {
+                            $result->setItems(count($feeds));
                         }
-                    }
-                    if ($this->client->hasErrors()) {
-                        $result->setStatus(false);
-                        $result->setError($this->client->getLastError());
                     }
                 } catch (\Exception $e) {
                     $result->setStatus(false);
@@ -139,6 +131,7 @@ class Reporter
 
     /**
      * @param Link $link
+     *
      * @return LinkStatus
      */
     protected function createLinkStatus(Link $link)

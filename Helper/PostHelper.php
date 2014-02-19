@@ -64,7 +64,6 @@ class PostHelper
         $string = str_replace('<p>&nbsp;</p>', '', $string);
         $string = trim(str_replace('<p></p>', '', $string));
         $string = preg_replace('/\s\s+/', ' ', $string);
-        $string = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $string);
 
         return trim($string);
     }
