@@ -59,7 +59,7 @@ class Spider extends AbstractService
     /**
      * @param EntityManager            $em
      * @param EventDispatcherInterface $dispatcher
-     * @param FastFeed                 $fastFeed
+     * @param FastFeedInterface        $fastFeed
      * @param LoggerInterface          $logger
      */
     public function __construct(
@@ -221,13 +221,15 @@ class Spider extends AbstractService
         $entity->setImage($item->getImage());
         $this->em->persist($entity);
 
-        $this->setGUID($entity, $item->getId());
         $this->setTags($entity, $tags = $item->getTags());
         if ($item->getAuthor()) {
             $this->setAuthor($entity, $item->getAuthor());
         }
 
         $this->em->persist($entity);
+        $this->em->flush();
+
+        $this->setGUID($entity, $item->getId());
         $this->em->flush();
 
         return $entity;

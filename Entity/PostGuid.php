@@ -2,10 +2,10 @@
 
 /**
  * This file is part of the planetubuntu proyect.
- * 
+ *
  * Copyright (c)
- * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>  
- * 
+ * Daniel González Cerviño <daniel.gonzalez@freelancemadrid.es>
+ *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * 
+ *
  * Description of PostGuid
  *
  *
@@ -33,23 +33,30 @@ class PostGuid
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $name
      *
      * @ORM\Column(name="guid", type="string", length=255, unique=true)
      */
-    private $guid;
+    protected $guid;
 
     /**
-     * 
+     *
      * @var Post
-     * 
-     * @ORM\ManyToOne(targetEntity="Desarrolla2\Bundle\BlogBundle\Entity\Post")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="CASCADE")
+     *
+     * @ORM\Column(name="post_id", type="integer", unique=true)
      */
-    private $post;
+    protected $post_id;
+
+    /**
+     * @var \DateTime $created_at
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
 
     /**
      * @var \DateTime $updated_at
@@ -57,14 +64,22 @@ class PostGuid
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
-     * @var \DateTime $published_at
+     * Set post
      *
-     * @ORM\Column(name="published_at", type="datetime", nullable=true)
+     * @param \Desarrolla2\Bundle\BlogBundle\Entity\Post $post
+     *
+     * @return FeedItem
      */
-    private $publishedAt;
+    public function setPost(\Desarrolla2\Bundle\BlogBundle\Entity\Post $post = null)
+    {
+        $this->post_id = $post->getId();
+
+        return $this;
+    }
+
 
     /**
      * Get id
@@ -80,7 +95,8 @@ class PostGuid
      * Set guid
      *
      * @param string $guid
-     * @return FeedItem
+     *
+     * @return PostGuid
      */
     public function setGuid($guid)
     {
@@ -100,10 +116,59 @@ class PostGuid
     }
 
     /**
+     * Set post_id
+     *
+     * @param integer $postId
+     *
+     * @return PostGuid
+     */
+    public function setPostId($postId)
+    {
+        $this->post_id = $postId;
+
+        return $this;
+    }
+
+    /**
+     * Get post_id
+     *
+     * @return integer 
+     */
+    public function getPostId()
+    {
+        return $this->post_id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return PostGuid
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return FeedItem
+     *
+     * @return PostGuid
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -121,51 +186,4 @@ class PostGuid
     {
         return $this->updatedAt;
     }
-
-    /**
-     * Set publishedAt
-     *
-     * @param \DateTime $publishedAt
-     * @return FeedItem
-     */
-    public function setPublishedAt($publishedAt)
-    {
-        $this->publishedAt = $publishedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get publishedAt
-     *
-     * @return \DateTime 
-     */
-    public function getPublishedAt()
-    {
-        return $this->publishedAt;
-    }
-
-    /**
-     * Set post
-     *
-     * @param \Desarrolla2\Bundle\BlogBundle\Entity\Post $post
-     * @return FeedItem
-     */
-    public function setPost(\Desarrolla2\Bundle\BlogBundle\Entity\Post $post = null)
-    {
-        $this->post = $post;
-
-        return $this;
-    }
-
-    /**
-     * Get post
-     *
-     * @return \Desarrolla2\Bundle\BlogBundle\Entity\Post 
-     */
-    public function getPost()
-    {
-        return $this->post;
-    }
-
 }
