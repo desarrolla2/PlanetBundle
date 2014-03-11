@@ -13,7 +13,6 @@ namespace Desarrolla2\Bundle\PlanetBundle\Event;
 use Symfony\Component\EventDispatcher\Event;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 
-
 /**
  * Class PostEvent
  *

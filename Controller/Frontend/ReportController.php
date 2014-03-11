@@ -68,7 +68,6 @@ class ReportController extends Controller
         );
     }
 
-
     /**
      *
      * @Route("/link", name="_planet_report_link_list")
@@ -146,7 +145,7 @@ class ReportController extends Controller
     protected function getPage()
     {
         $request = $this->getRequest();
-        $page = (int)$request->get('page', 1);
+        $page = (int) $request->get('page', 1);
         if ($page < 1) {
             $this->createNotFoundException('Page number is not valid' . $page);
         }

@@ -12,9 +12,6 @@ namespace Desarrolla2\Bundle\PlanetBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Post
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
-
 
 /**
  * Class Image
@@ -39,11 +36,10 @@ class Image extends AbstractService
         $this->em = $em;
     }
 
-
     /**
      *
      */
-    public function updateImage(){
-
+    public function updateImage()
+    {
     }
 }

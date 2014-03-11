@@ -66,7 +66,7 @@ class Unrelated
     /**
      * Set post
      *
-     * @param Post $post
+     * @param  Post      $post
      * @return Unrelated
      */
     public function setPost(Post $post = null)
@@ -89,7 +89,7 @@ class Unrelated
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime $createdAt
      * @return Unrelated
      */
     public function setCreatedAt($createdAt)

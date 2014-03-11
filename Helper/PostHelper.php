@@ -10,7 +10,6 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Helper;
 
-
 /**
  * Class TextHelper
  *
@@ -22,7 +21,7 @@ class PostHelper
 
     /**
      *
-     * @param string $string
+     * @param  string $string
      * @return string
      */
     public static function doCleanContent($string)
@@ -39,7 +38,7 @@ class PostHelper
 
     /**
      *
-     * @param string $string
+     * @param  string $string
      * @return string
      */
     public static function doCleanIntro($string)
@@ -53,10 +52,9 @@ class PostHelper
         return self::doClean(HTMLHelper::truncate($string, 500));
     }
 
-
     /**
      *
-     * @param string $string
+     * @param  string $string
      * @return string
      */
     protected static function doClean($string)

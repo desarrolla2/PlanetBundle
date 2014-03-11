@@ -47,7 +47,6 @@ class PostSourceError
      */
     protected $source = '';
 
-
     /**
      * @var integer errors
      *

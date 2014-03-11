@@ -3,7 +3,6 @@
 namespace Desarrolla2\Bundle\PlanetBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Desarrolla2\Bundle\BlogBundle\Model\PostStatus;
 use Desarrolla2\Bundle\BlogBundle\Entity\Post;
 
 /**

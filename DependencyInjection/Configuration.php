@@ -25,9 +25,9 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('title')->defaultValue('Add your blog')->end()
                             ->scalarNode('name')->defaultValue('Your Name')->end()
-                            ->scalarNode('email')->end()             
+                            ->scalarNode('email')->end()
                         ->end()
-                    ->end()                
+                    ->end()
                 ->end();
 
         return $treeBuilder;

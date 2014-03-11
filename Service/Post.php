@@ -14,8 +14,6 @@ namespace Desarrolla2\Bundle\PlanetBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Manager\PostManager;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 
 /**
  *
@@ -90,7 +88,6 @@ class Post extends AbstractService
     private function getPostPublishedWithSource()
     {
     }
-
 
     private function countPostPublishedWithSource()
     {

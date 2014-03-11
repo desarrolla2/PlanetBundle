@@ -80,11 +80,10 @@ class PostGuid
         return $this;
     }
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -108,7 +107,7 @@ class PostGuid
     /**
      * Get guid
      *
-     * @return string 
+     * @return string
      */
     public function getGuid()
     {
@@ -132,7 +131,7 @@ class PostGuid
     /**
      * Get post_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getPostId()
     {
@@ -156,7 +155,7 @@ class PostGuid
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -180,7 +179,7 @@ class PostGuid
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

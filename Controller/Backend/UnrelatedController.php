@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Desarrolla2\Bundle\PlanetBundle\Controller\Backend;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +15,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class UnrelatedController extends Controller
 {
-
 
     /**
      * @Route("/unrelated" , name="_planet_backend_unrelated")

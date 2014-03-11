@@ -21,7 +21,7 @@ class PlanetExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        
+
         $container->setParameter('planet.newblog.name', $config['newblog']['name']);
         $container->setParameter('planet.newblog.email', $config['newblog']['email']);
         $container->setParameter('planet.newblog.title', $config['newblog']['title']);

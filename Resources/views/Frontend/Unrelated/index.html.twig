@@ -1,7 +1,7 @@
 {% extends "::frontend.html.twig" %}
 {% block meta_robots %}noindex{% endblock %}
 {% block title %} Informar de contenido no relacionado {% endblock %}
-{% block content %}    
+{% block content %}
 <article>
     <header>
         <h2><a rel="nofollow" href="{{ url('_unrelated', {'slug': post.slug })}}"> Informar de contenido no relacionado</a></h2>
@@ -9,13 +9,13 @@
 
     <p>
         Si usted cree que el contenido no es apropiado o no está relacionado con la
-        tematica del blog, envíe el siguiente formulario.        
+        tematica del blog, envíe el siguiente formulario.
     </p>
 
     <p>
-        Queremos mantener centrada la temática del planeta, por eso necesitamos la ayuda 
-        los usuarios de planet ubuntu, para detectar entradas que no deberían aparecer en 
-        el sitio.        
+        Queremos mantener centrada la temática del planeta, por eso necesitamos la ayuda
+        los usuarios de planet ubuntu, para detectar entradas que no deberían aparecer en
+        el sitio.
     </p>
 
     <p>
@@ -27,14 +27,14 @@
     <form id="contact" action="{{ url('_unrelated', {'slug': post.slug }) }}" method="post" {{ form_enctype(form) }} class="row-captcha">
             {% if form_errors(form) %}
             <div class="alert alert-error">{{ form_errors(form) }}</div>
-            {% endif %}                        
+            {% endif %}
             <p>
                 <label for="">(*)¿Eres humano?</label>
-            {% if form_errors(form.captcha) %} 
+            {% if form_errors(form.captcha) %}
             <div class="alert alert-error ">{{ form_errors(form.captcha) }}</div>
-            {% endif %}                
+            {% endif %}
             {{ form_widget(form.captcha, { 'attr': {'class': 'captcha'}} ) }}
-            </p>   
+            </p>
             <button class="btn" type="submit">Confirmar</button>
             {{ form_rest(form) }}
         </form>

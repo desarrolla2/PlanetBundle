@@ -23,8 +23,6 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use \DOMDocument;
-use \DateTime;
 use FastFeed\FastFeedInterface;
 use FastFeed\Item;
 

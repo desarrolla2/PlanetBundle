@@ -12,7 +12,6 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Model\Report;
 
-
 /**
  * Class LinkStatus
  *
@@ -116,7 +115,7 @@ class LinkStatus
      */
     public function setItems($items)
     {
-        $this->items = (int)$items;
+        $this->items = (int) $items;
     }
 
     /**
@@ -132,7 +131,7 @@ class LinkStatus
      */
     public function setStatus($status)
     {
-        $this->status = (bool)$status;
+        $this->status = (bool) $status;
     }
 
     /**

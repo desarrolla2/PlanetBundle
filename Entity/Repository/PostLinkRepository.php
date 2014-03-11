@@ -17,7 +17,7 @@ use DateTime;
 class PostLinkRepository extends EntityRepository
 {
     /**
-     * @param Post $post
+     * @param  Post  $post
      * @return mixed
      */
     public function getLink(Post $post)
@@ -40,9 +40,9 @@ class PostLinkRepository extends EntityRepository
     }
 
     /**
-     * @param Link     $link
-     * @param DateTime $from
-     * @param DateTime $to
+     * @param  Link     $link
+     * @param  DateTime $from
+     * @param  DateTime $to
      * @return int
      */
     public function countFromTo(Link $link, DateTime $from, DateTime $to)
@@ -62,7 +62,7 @@ class PostLinkRepository extends EntityRepository
     }
 
     /**
-     * @param Link $link
+     * @param  Link                $link
      * @return \Doctrine\ORM\Query
      */
     public function getQueryForGetByLink(Link $link)

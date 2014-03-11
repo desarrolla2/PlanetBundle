@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityManager;
 use Desarrolla2\Bundle\BlogBundle\Entity\Link;
 use Desarrolla2\Bundle\PlanetBundle\Model\Report\LinksStatistics;
 use Desarrolla2\Bundle\PlanetBundle\Model\Report\LinkStatus;
-use Symfony\Component\Validator\Constraints\Date;
 use Desarrolla2\Cache\Cache;
 use DateTime;
 

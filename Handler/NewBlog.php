@@ -96,7 +96,7 @@ class NewBlog
 
     /**
      *
-     * @param \Desarrolla2\Bundle\PlanetBundle\Form\Model\NewBlogModel $data
+     * @param  \Desarrolla2\Bundle\PlanetBundle\Form\Model\NewBlogModel $data
      * @return string
      */
     protected function renderTemplate(NewBlogModel $data)

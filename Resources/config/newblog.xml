@@ -14,5 +14,5 @@
             <argument type="string" >%planet.newblog.title%</argument>
             <argument type="string" >%planet.newblog.email%</argument>
         </service>
-    </services>    
+    </services>
 </container>

@@ -10,7 +10,6 @@
 
 namespace Desarrolla2\Bundle\PlanetBundle\Helper;
 
-
 /**
  * Class HTMLHelper
  *
@@ -22,11 +21,11 @@ class HTMLHelper
     /**
      *
      *
-     * @param string  $text         String to truncate.
-     * @param integer $length       Length of returned string, including ellipsis.
-     * @param string  $ending       Ending to be appended to the trimmed string.
-     * @param boolean $exact        If false, $text will not be cut mid-word
-     * @param boolean $html If true, HTML tags would be handled correctly
+     * @param string  $text   String to truncate.
+     * @param integer $length Length of returned string, including ellipsis.
+     * @param string  $ending Ending to be appended to the trimmed string.
+     * @param boolean $exact  If false, $text will not be cut mid-word
+     * @param boolean $html   If true, HTML tags would be handled correctly
      *
      * @return string Trimmed string.
      */
